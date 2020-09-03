@@ -24,3 +24,5 @@ npm run lint
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## vue项目
+
+### 组长 ：谢鹏亮 组员：谭佩文、牛富强
