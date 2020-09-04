@@ -3,6 +3,10 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
+import request from "./newwork/request"
+Vue.prototype.$request = request;
+
+
 Vue.config.productionTip = false
 
 new Vue({

@@ -8,7 +8,18 @@
 import MainTabbar from "./components/MainTabbar";
 
 import Vue from "vue";
-import { Image, Grid, GridItem, Button, Icon, Toast } from "vant";
+import {
+  Image,
+  Grid,
+  GridItem,
+  Button,
+  Icon,
+  Toast,
+  Tab,
+  Tabs,
+  Col,
+  Row,
+} from "vant";
 
 Vue.use(Image);
 Vue.use(Grid);
@@ -16,7 +27,10 @@ Vue.use(GridItem);
 Vue.use(Button);
 Vue.use(Icon);
 Vue.use(Toast);
-
+Vue.use(Tab);
+Vue.use(Tabs);
+Vue.use(Col);
+Vue.use(Row);
 export default {
   components: {
     MainTabbar,
@@ -24,4 +38,11 @@ export default {
 };
 </script>
 <style lang="scss">
+@import url("../src/assets/css/normalize.css");
+@import url("../src/assets/css/base.css");
+
+#app {
+  height: 100%;
+  width: 100%;
+}
 </style>
