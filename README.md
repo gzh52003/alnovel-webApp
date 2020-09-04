@@ -1,28 +1,3 @@
-# alnovel
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-
 ### 演示
 + 官网: http://www.yiguo.com/
 + 上线网址
@@ -55,3 +30,4 @@ alnovel├─public    网站根目录
             ├─utils         工具包
             └─views         页面
 ```
+
