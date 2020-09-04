@@ -3,22 +3,23 @@
     <div class="titleWrap">
       <img src="profile/loginLogo.png" alt="书旗小说" class="logo" />
       <p class="link">
-        <a href="javascript:;">注册</a>
+        <a href="javascript:;" @click="gotoReg">注册</a>
         /
         <a href="javascript:;">找回</a>
       </p>
     </div>
     <div class="formWrap">
       <div class="inputWrap">
-        <input type="text" :placeholder="showLogin === true ? '请输入手机号':'请输入手机号/邮箱'" />
+        <input type="text" :placeholder="showLogin === true ? '请输入手机号':'请输入手机号/邮箱'" v-model="userPhone"/>
       </div>
       <div class="inputWrap">
         <!-- 密码验证 -->
-        <input 
-        :type="Nosee===true?'password':'text'" 
-        :placeholder="showLogin === true ? '请输入验证码':'请输入密码'"
-       />
-       <!-- 获取验证码 -->
+        <input
+          :type="Nosee===true?'password':'text'"
+          :placeholder="showLogin === true ? '请输入验证码':'请输入密码'"
+          v-model="userPsd"
+        />
+        <!-- 获取验证码 -->
         <button class="getCode" v-if="showLogin">获取验证码</button>
         <!-- 显示和隐藏密码 -->
         <span class="eye" v-else @click="closeEye">
@@ -60,6 +61,8 @@ export default {
       checked: false,
       showLogin: false,
       Nosee: true,
+      userPhone:'',
+      userPsd:'',
     };
   },
   methods: {
@@ -70,6 +73,10 @@ export default {
     // 点击显示和隐藏密码
     closeEye() {
       this.Nosee = !this.Nosee;
+    },
+    // 跳转到注册页
+    gotoReg() {
+      this.$router.push("/reg");
     },
   },
 };
