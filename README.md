@@ -42,7 +42,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### 项目页面截图
 
-### 项目目录说明
+### 项目目录说明 
 ```js
 alnovel├─public    网站根目录
          │  └─image    
