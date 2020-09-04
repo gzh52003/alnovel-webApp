@@ -31,6 +31,14 @@ const routes = [{
     },
     component: () => import("../views/category/Category.vue")
   }, {
+    path: '/categoryDetail/:id/:type',
+    name: 'CategoryDetail',
+    meta: {
+      title: "都市"
+    },
+    component: () => import("../views/category/CategoryDetail.vue")
+  },
+  {
     path: '/profile',
     name: 'Profile',
     meta: {

@@ -1,12 +1,12 @@
 <!--  -->
 <template>
-  <van-tabbar v-model="active" class="main-tabbar">
+  <van-tabbar route v-model="active" class="main-tabbar">
     <van-tabbar-item
       v-for="item in tabList"
       :key="item.text"
       class="main-tabbar-item"
       :icon="item.icon"
-      router
+      :name="item.name"
       :to="item.path"
     >{{ item.text }}</van-tabbar-item>
   </van-tabbar>
@@ -22,24 +22,28 @@ export default {
   name: "MainTabbar",
   data() {
     return {
-      active: 0,
+      active: "shelf",
       tabList: [
         {
+          name: "shelf",
           path: "/shelf",
           text: "书架",
           icon: "newspaper-o",
         },
         {
+          name: "books",
           path: "/books",
           text: "书城",
           icon: "bookmark-o",
         },
         {
+          name: "category",
           path: "/category",
           text: "分类",
           icon: "apps-o",
         },
         {
+          name: "profile",
           path: "/profile",
           text: "我的",
           icon: "user-o",
