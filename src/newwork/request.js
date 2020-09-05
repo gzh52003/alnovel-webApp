@@ -1,9 +1,10 @@
 import axios from "axios";
 
-const baseUrl = process.NODE_ENV === 'development' ? 'http://localhost:2003' : ''
+// const baseURL = process.NODE_ENV === 'development' ? 'http://localhost:2003' : ''
 
 const request = axios.create({
-  baseUrl: baseUrl + "/api",
+  // baseURL: baseURL + "/api",
+  baseURL: 'http://localhost:2003/api',
   withCredentials: true
 })
 

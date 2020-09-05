@@ -31,12 +31,20 @@ const routes = [{
     },
     component: () => import("../views/category/Category.vue")
   }, {
-    path: '/categoryDetail/:id/:type',
+    path: '/categoryDetail/:id/:name/:booksType',
     name: 'CategoryDetail',
     meta: {
       title: "都市"
     },
     component: () => import("../views/category/CategoryDetail.vue")
+  },
+  {
+    path: '/novelDetails/:id',
+    name: 'NovelDetails',
+    meta: {
+      title: "书籍详情"
+    },
+    component: () => import("../views/category/NovelDetails.vue")
   },
   {
     path: '/profile',
