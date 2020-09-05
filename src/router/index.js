@@ -103,18 +103,10 @@ const routes = [{
     component: () => import("../views/profile/Bought.vue")
   },
   {
-    path: '/bought',
-    name: 'Bought',
-    meta: {
-      title: "购买过的书"
-    },
-    component: () => import("../views/profile/Bought.vue")
-  },
-  {
     path: '/feedback',
     name: 'Feedback',
     meta: {
-      title: "购买过的书"
+      title: "意见反馈"
     },
     component: () => import("../views/profile/Feedback.vue")
   },
