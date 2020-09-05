@@ -1,13 +1,12 @@
 <template>
-  <h1>反馈</h1>
+  <div>
+    <input type="text" placeholder="遇到问题先搜一搜" />
+  </div>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
 <style>
-
 </style>

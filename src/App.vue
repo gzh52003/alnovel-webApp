@@ -41,6 +41,7 @@ export default {
 
 @import url("../src/assets/css/normalize.css");
 @import url("../src/assets/css/base.css");
+@import url("../src/assets/css/reset.css");
 
 #app {
   height: 100%;
