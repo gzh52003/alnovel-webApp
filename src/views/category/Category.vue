@@ -46,77 +46,77 @@ export default {
           type: "都市",
           title: "生活/异能",
           path: "categoryDetail",
-          imgUrl: "categoryImg/type/male/2017091318311993.png",
+          imgUrl: "categoryImg/typeImg/male/2017091318311993.png",
         },
         {
           id: 1,
           type: "玄幻",
           title: "东方玄幻",
           path: "categoryDetail/1/玄幻",
-          imgUrl: "categoryImg/type/male/2017091318312724.png",
+          imgUrl: "categoryImg/typeImg/male/2017091318312724.png",
         },
         {
           id: 133,
           type: "仙侠",
           title: "现代修真",
           path: "categoryDetail",
-          imgUrl: "categoryImg/type/male/2017091318313555.png",
+          imgUrl: "categoryImg/typeImg/male/2017091318313555.png",
         },
         {
           id: 41,
           type: "灵异",
           title: "现代修真",
           path: "categoryDetail",
-          imgUrl: "categoryImg/type/male/2017091318314338.png",
+          imgUrl: "categoryImg/typeImg/male/2017091318314338.png",
         },
         {
           id: 125,
           type: "历史",
           title: "东方玄幻",
           path: "categoryDetail",
-          imgUrl: "categoryImg/type/male/2017091318315165.png",
+          imgUrl: "categoryImg/typeImg/male/2017091318315165.png",
         },
         {
           id: 40,
           type: "游戏",
           title: "虚拟网游",
           path: "categoryDetail",
-          imgUrl: "categoryImg/type/male/2017091318320558.png",
+          imgUrl: "categoryImg/typeImg/male/2017091318320558.png",
         },
         {
           id: 62,
           type: "科幻",
           title: "未来世界",
           path: "categoryDetail",
-          imgUrl: "categoryImg/type/male/2017091318321490.png",
+          imgUrl: "categoryImg/typeImg/male/2017091318321490.png",
         },
         {
           id: 8,
           type: "武侠",
           title: "传统武侠",
           path: "categoryDetail",
-          imgUrl: "categoryImg/type/male/2017091318322238.png",
+          imgUrl: "categoryImg/typeImg/male/2017091318322238.png",
         },
         {
           id: 135,
           type: "奇幻",
           title: "西方奇幻",
           path: "categoryDetail",
-          imgUrl: "categoryImg/type/male/2017091318322966.png",
+          imgUrl: "categoryImg/typeImg/male/2017091318322966.png",
         },
         {
           id: 12,
           type: "竞技",
           title: "电子竞技",
           path: "categoryDetail",
-          imgUrl: "categoryImg/type/male/2017091318323615.png",
+          imgUrl: "categoryImg/typeImg/male/2017091318323615.png",
         },
         {
           id: 263,
           type: "其他",
           title: "动漫影视",
           path: "categoryDetail",
-          imgUrl: "categoryImg/type/male/2017091318323615.png",
+          imgUrl: "categoryImg/typeImg/male/2017091318323615.png",
         },
       ],
     };
@@ -126,7 +126,7 @@ export default {
       this.isShowCurrent = !this.isShowCurrent;
     },
     gotoDetails(id, type) {
-      // console.log("111", id, type);
+      console.log("111", id, type);
       this.$router.push({
         name: "CategoryDetail",
         params: {
@@ -159,12 +159,13 @@ export default {
   top: 0;
   right: 0;
   display: flex;
-  height: 49%;
+  height: 49px;
   line-height: 49px;
   margin-bottom: 5px;
 
   .cate-header-item {
     flex: 1;
+    height: 49px;
     text-align: center;
     .cate-item-male {
       padding: 10px 5px;
@@ -186,10 +187,8 @@ export default {
 }
 // 主体
 .cate-con {
-  position: absolute;
-  margin: 49px 0;
+  margin: 49px 0 17px;
   width: 96%;
-  height: 720px;
   margin-left: 2%;
 
   .cate-con-item {
