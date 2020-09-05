@@ -38,6 +38,7 @@ export default {
 };
 </script>
 <style lang="scss">
+
 @import url("../src/assets/css/normalize.css");
 @import url("../src/assets/css/base.css");
 
