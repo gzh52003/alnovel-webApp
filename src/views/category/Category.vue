@@ -15,12 +15,12 @@
         <div class="cate-con-item" v-show="isShowCurrent">
           <div
             class="card-box"
-            @click="gotoDetails(item.id,item.type)"
+            @click="gotoDetails(item.id,item.name,item.booksType)"
             v-for="item in cateBooksMale"
-            :key="item.type"
+            :key="item.name"
           >
             <div class="card-left">
-              <h1>{{ item.type }}</h1>
+              <h1>{{ item.name }}</h1>
               <p>{{ item.title }}</p>
             </div>
             <div class="card-right">
@@ -42,81 +42,92 @@ export default {
       isShowCurrent: true,
       cateBooksMale: [
         {
-          id: 51,
-          type: "都市",
+          id: 1,
+          name: "都市",
+          booksType: "都市小说",
           title: "生活/异能",
           path: "categoryDetail",
-          imgUrl: "categoryImg/typeImg/male/2017091318311993.png",
+          imgUrl: "categoryImg/typeImg/male/homeImg/2017091318311993.png",
         },
         {
-          id: 1,
-          type: "玄幻",
+          id: 2,
+          name: "玄幻",
+          booksType: "玄幻小说",
           title: "东方玄幻",
           path: "categoryDetail/1/玄幻",
-          imgUrl: "categoryImg/typeImg/male/2017091318312724.png",
+          imgUrl: "categoryImg/typeImg/male/homeImg/2017091318312724.png",
         },
         {
-          id: 133,
-          type: "仙侠",
+          id: 3,
+          name: "仙侠",
+          booksType: "仙侠小说",
           title: "现代修真",
           path: "categoryDetail",
-          imgUrl: "categoryImg/typeImg/male/2017091318313555.png",
+          imgUrl: "categoryImg/typeImg/male/homeImg/2017091318313555.png",
         },
         {
-          id: 41,
-          type: "灵异",
-          title: "现代修真",
+          id: 4,
+          name: "灵异",
+          booksType: "灵异推理",
+          title: "灵异鬼怪",
           path: "categoryDetail",
-          imgUrl: "categoryImg/typeImg/male/2017091318314338.png",
+          imgUrl: "categoryImg/typeImg/male/homeImg/2017091318314338.png",
         },
         {
-          id: 125,
-          type: "历史",
-          title: "东方玄幻",
+          id: 5,
+          name: "历史",
+          booksType: "历史架空",
+          title: "历史架空",
           path: "categoryDetail",
-          imgUrl: "categoryImg/typeImg/male/2017091318315165.png",
+          imgUrl: "categoryImg/typeImg/male/homeImg/2017091318315165.png",
         },
         {
-          id: 40,
-          type: "游戏",
+          id: 6,
+          name: "游戏",
+          booksType: "游戏竞技",
           title: "虚拟网游",
           path: "categoryDetail",
-          imgUrl: "categoryImg/typeImg/male/2017091318320558.png",
+          imgUrl: "categoryImg/typeImg/male/homeImg/2017091318320558.png",
         },
         {
-          id: 62,
-          type: "科幻",
+          id: 7,
+          name: "科幻",
+          booksType: "科幻小说",
           title: "未来世界",
           path: "categoryDetail",
-          imgUrl: "categoryImg/typeImg/male/2017091318321490.png",
+          imgUrl: "categoryImg/typeImg/male/homeImg/2017091318321490.png",
         },
         {
           id: 8,
-          type: "武侠",
+          name: "武侠",
+          booksType: "武侠小说",
           title: "传统武侠",
           path: "categoryDetail",
-          imgUrl: "categoryImg/typeImg/male/2017091318322238.png",
+          imgUrl: "categoryImg/typeImg/male/homeImg/2017091318322238.png",
         },
         {
-          id: 135,
-          type: "奇幻",
+          id: 9,
+          name: "奇幻",
+          booksType: "奇幻小说",
           title: "西方奇幻",
           path: "categoryDetail",
-          imgUrl: "categoryImg/typeImg/male/2017091318322966.png",
+          imgUrl: "categoryImg/typeImg/male/homeImg/2017091318322966.png",
         },
         {
-          id: 12,
-          type: "竞技",
+          id: 10,
+          name: "竞技",
+          booksType: "竞技体育",
           title: "电子竞技",
           path: "categoryDetail",
-          imgUrl: "categoryImg/typeImg/male/2017091318323615.png",
+          imgUrl: "categoryImg/typeImg/male/homeImg/2017091318323615.png",
         },
         {
-          id: 263,
-          type: "其他",
+          id: 11,
+          name: "其他",
+          booksType: "耽美小说",
           title: "动漫影视",
           path: "categoryDetail",
-          imgUrl: "categoryImg/typeImg/male/2017091318323615.png",
+          imgUrl: "categoryImg/typeImg/male/homeImg/2017091318323615.png",
         },
       ],
     };
@@ -125,13 +136,15 @@ export default {
     cahngeTab() {
       this.isShowCurrent = !this.isShowCurrent;
     },
-    gotoDetails(id, type) {
-      console.log("111", id, type);
+    //跳转到分类的详情页
+    gotoDetails(id, name, booksType) {
+      // console.log("111", id, name, booksType);
       this.$router.push({
         name: "CategoryDetail",
         params: {
           id,
-          type,
+          name,
+          booksType,
         },
       });
     },

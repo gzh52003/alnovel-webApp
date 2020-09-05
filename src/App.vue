@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <main-tabbar></main-tabbar>
+    <main-tabbar v-show="isShowTabBar"></main-tabbar>
     <router-view />
   </div>
 </template>
@@ -36,6 +36,11 @@ Vue.use(Card);
 export default {
   components: {
     MainTabbar,
+  },
+  computed: {
+    isShowTabBar() {
+      return this.$store.state.isShowTabbar;
+    },
   },
 };
 </script>
