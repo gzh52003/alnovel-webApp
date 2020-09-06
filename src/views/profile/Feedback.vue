@@ -13,11 +13,16 @@
     <div class="tagBox">
       <div class="tagWrap" v-for="tag in tagList" :key="tag.title">
         <div class="tagLeft">
+          <img :src="tag.imgurl" alt="">
           <span>{{tag.title}}</span>
         </div>
         <div class="tagRight">
           <ul class="list">
-            <li class="listItem" v-for="item in tag.questions" :key="item.quest">{{tag.questions.item.quest}}</li>
+            <li
+              class="listItem text_ellipsis"
+              v-for="item in tag.questions"
+              :key="item.quest"
+            >{{item.quest}}</li>
             <!-- <li class="listItem">2</li>
             <li class="listItem">3</li>
             <li class="listItem">4</li>-->
@@ -34,17 +39,17 @@ export default {
     return {
       tagList: [
         {
-          img: "",
+          imgurl: "profile/feedback/iconfire.png",
           title: "热点问题 >",
           questions: [
-            { quest: "小程序账号" },
-            { quest: "阅读获得的能量" },
+            { quest: "小程序账号能在书城" },
+            { quest: "阅读获得的能量如何在" },
             { quest: "蚂蚁森林阅读活动" },
             { quest: "账号注销流程" },
           ],
         },
         {
-          img: "",
+          imgurl: "profile/feedback/iconavatar.jpg",
           title: "账号密码 >",
           questions: [
             { quest: "账号换绑" },
@@ -53,7 +58,7 @@ export default {
           ],
         },
         {
-          img: "",
+          imgurl: "profile/feedback/iconbook.jpg",
           title: "功能/阅读 >",
           questions: [
             { quest: "调出设置" },
@@ -65,7 +70,7 @@ export default {
           ],
         },
         {
-          img: "",
+          imgurl: "profile/feedback/iconshopping.png",
           title: "充值/消费 >",
           questions: [
             { quest: "充值成功未到账" },
@@ -75,7 +80,7 @@ export default {
           ],
         },
         {
-          img: "",
+          imgurl: "profile/feedback/iconvip.jpg",
           title: "会员相关 >",
           questions: [
             { quest: "普通包月特权" },
@@ -91,6 +96,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+body {
+  background: #f5f5f5;
+  background: pink;
+}
+
 .homeSearch {
   height: 50px;
   display: flex;
@@ -116,32 +126,48 @@ export default {
     height: 100%;
   }
 }
+.tagBox {
+  // background: #fff;
+}
 
 .tagWrap {
   display: flex;
   justify-content: space-between;
   .tagLeft {
     width: 92px;
-    height: 84px;
-    background: pink;
+    // height: 84px;
+    // background: pink;
+    border-right: 2px solid #f5f5f5;
+    border-bottom: 2px solid #f5f5f5;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    img{
+      width: 30px;
+      height: 30px;
+    }
     span {
-      margin: auto;
+      font-size: 14px;
     }
   }
   .tagRight {
-    width: 275px;
-    height: 84px;
-    background: blue;
-    padding: 8px 0 8px 18px;
+    width: 283px;
+    // height: 84px;
+    // background: blue;
+    padding: 7px 0 7px 25px;
+    border-bottom: 2px solid #f5f5f5;
     .list {
       display: flex;
       // flex-shrink: 0;
       flex-wrap: wrap;
       .listItem {
-        width: 126px;
+        width: 112px;
         height: 20px;
         margin: 7px 0;
+        overflow: hidden;
+        font-size: 14px;
+        margin-right: 5px;
       }
     }
   }
