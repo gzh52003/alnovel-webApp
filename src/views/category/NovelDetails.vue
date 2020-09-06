@@ -4,15 +4,15 @@
     <div class="books-info">
       <dl>
         <dt>
-          <img src alt />
+          <img :src="bookInfo.cover" alt />
         </dt>
         <dd>
-          <h3>我是小说</h3>
-          <p>我是小说简介</p>
+          <h3>{{ bookInfo.title }}</h3>
+          <p>{{ bookInfo.author }}</p>
           <div class="recoment-novel">
             <span>连载</span>
-            <span>33万字</span>
-            <span>0.5书豆/千字</span>
+            <span>{{ bookInfo.words | formateNevel}}</span>
+            <span>{{ catalogList.price }}书豆/千字</span>
           </div>
         </dd>
       </dl>
@@ -20,11 +20,8 @@
     <div class="titlebar">内容简介</div>
     <div class="books-desc">
       <p class @click="showAll" :class="isShowAll?'showAll':'books-desc-con'">
-        古老的传说逐渐远去，蒸汽炉中燃烧的火焰将旧时代彻底焚化，然而狼人、吸血鬼、诡异、妖怪正在在黑暗中磨砺着自己的爪牙，暗中窥伺着世界。
-        王洛意外的来到了这个世界，同时还带着献祭系统，他吹响了超凡的号角，呼唤着远古的存在加快了苏醒，走出了一条属于传奇的道路。
-        <span
-          :class="isShowAll?'books-sanjiao-box2':'books-sanjiao-box'"
-        >
+        {{ bookInfo.desc }}
+        <span :class="isShowAll?'books-sanjiao-box2':'books-sanjiao-box'">
           <van-icon
             class="books-sanjiao"
             @click="showAll"
@@ -34,21 +31,20 @@
       </p>
     </div>
     <div class="books-tag">
-      <span>穿越</span>
-      <span>穿越</span>
+      <span v-for="item in String(bookInfo.tags).split(',')" :key="item">{{ item }}</span>
     </div>
 
     <!-- 最新 -->
     <div class="books-news">
       <h4>最新</h4>
-      <span>622，新的啊！</span>
+      <span>{{ bookInfo.last_chapter_name }}</span>
       <van-icon class="arrow-c" name="arrow" />
       <div class="line"></div>
     </div>
     <!-- 目录 -->
     <div class="books-catalog books-news">
       <h4>目录</h4>
-      <span>622，新的啊！</span>
+      <span @click="gotoCatelog">共{{ catalogList.chapterNum }}章</span>
       <van-icon class="arrow-c" name="arrow" />
       <div class="line"></div>
     </div>
@@ -123,15 +119,33 @@
 </template>
 
 <script>
+import Vue from "vue";
+// 格式化 小说字数！
+Vue.filter("formateNevel", (val) => {
+  let res;
+  val = String(val);
+  if (val.length > 4) {
+    res = val.substring(0, val.length - 4);
+    res = res + "万";
+  } else {
+    res = val + "字";
+  }
+  return res;
+});
 export default {
   name: "NovelDetails",
   data() {
     return {
       isShowAll: false,
+      // 图书的基本数据
+      bookInfo: [],
+      // 带有价格和目录的数据
+      catalogList: [],
     };
   },
   created() {
-    console.log("我是显示", this.$store.state.isShowTabbar);
+    this.getBooksInfo();
+    this.getBooksCatelog();
   },
   computed: {
     isShowTabbar() {
@@ -145,8 +159,51 @@ export default {
     this.$store.commit("showTabbar", true);
   },
   methods: {
+    //是否显示全部的 简介
     showAll() {
       this.isShowAll = !this.isShowAll;
+    },
+    //获取图书信息
+    async getBooksInfo() {
+      const { id: bookid } = this.$route.params;
+      // console.log("id", bookid);
+      const { data: bookInfo } = await this.$request.get(
+        `/category/${bookid}`,
+        {
+          params: {
+            c_type: "dushi",
+          },
+        }
+      );
+      console.log("我是data获取图书信息", bookInfo.data[0]);
+      this.bookInfo = bookInfo.data[0];
+    },
+    // 获取图书的目录
+    async getBooksCatelog() {
+      const { id: bookId } = this.$route.params;
+      const { data: catalogList } = await this.$request.get(
+        `/category/catalog/${bookId}`,
+        {
+          params: {
+            c_type: "dushi-catalog",
+          },
+        }
+      );
+      // console.log("我是data获取图书的目录", catalogList);
+      this.catalogList = catalogList.data[0].data;
+    },
+    //跳转到目录
+    async gotoCatelog() {
+      const c_type = "dushi-catalog";
+      const { id } = this.$route.params;
+      // console.log("跳转目录");
+      this.$router.push({
+        name: "Catalog",
+        query: {
+          id,
+          c_type,
+        },
+      });
     },
   },
   components: {},
@@ -162,7 +219,6 @@ export default {
   .books-info {
     height: 144px;
     width: 100%;
-    background: yellow;
     dl {
       display: flex;
       width: 100%;
@@ -172,7 +228,6 @@ export default {
         margin-right: 1%;
         width: 32%;
         height: 100%;
-        background: orangered;
         img {
           width: 100%;
           height: 100%;
@@ -181,7 +236,6 @@ export default {
       dd {
         width: 67%;
         height: 100%;
-        background: #000;
         h3 {
           line-height: 28px;
           font-size: 19px;
@@ -270,7 +324,6 @@ export default {
     margin: 5px 0;
     padding: 0 12px;
     height: 28px;
-    background: #ddd;
 
     span {
       border-radius: 2px;

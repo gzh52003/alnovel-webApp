@@ -34,7 +34,7 @@ const routes = [{
     path: '/categoryDetail/:id/:name/:booksType',
     name: 'CategoryDetail',
     meta: {
-      title: "都市"
+      title: ""
     },
     component: () => import("../views/category/CategoryDetail.vue")
   },
@@ -45,6 +45,14 @@ const routes = [{
       title: "书籍详情"
     },
     component: () => import("../views/category/NovelDetails.vue")
+  },
+  {
+    path: '/catalog',
+    name: 'Catalog',
+    meta: {
+      title: ""
+    },
+    component: () => import("../views/category/Catalog.vue")
   },
   {
     path: '/profile',
@@ -80,7 +88,12 @@ const router = new VueRouter({
 
 
 router.beforeEach((to, form, next) => {
-  document.title = to.meta.title
+  if (to.name === "CategoryDetail") {
+    document.title = to.params.name
+  } else {
+    document.title = to.meta.title
+  }
+
   next()
 })
 export default router
