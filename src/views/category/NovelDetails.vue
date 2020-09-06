@@ -111,7 +111,7 @@
     <!-- 底部按钮 -->
     <div v-show="!isShowTabbar" class="options-bar">
       <div class="options-btn">
-        <button>加书架</button>
+        <button @click="joinShelf">加书架</button>
         <button>开始阅读</button>
       </div>
     </div>
@@ -204,6 +204,18 @@ export default {
           c_type,
         },
       });
+    },
+    //假如书架
+    async joinShelf() {
+      console.log("我是加入书架", this.bookInfo);
+      const res = await this.$request.post("/shelf", {
+        bookId: this.bookInfo.bookid,
+        bookName: this.bookInfo.title,
+        anyUpTime: this.bookInfo.uptime,
+        updateType: 3,
+        updateChapterNum: "",
+      });
+      console.log("我是res", res);
     },
   },
   components: {},

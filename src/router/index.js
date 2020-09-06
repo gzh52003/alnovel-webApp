@@ -17,6 +17,14 @@ const routes = [{
     },
     component: Shelf
   }, {
+    path: '/search',
+    name: 'Search',
+    meta: {
+      title: "搜索"
+    },
+    component: () => import("../views/shelf/Search.vue")
+  },
+  {
     path: '/books',
     name: 'Books',
     meta: {
