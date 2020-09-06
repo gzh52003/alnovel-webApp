@@ -13,21 +13,33 @@
       </div>
       <div class="cate-con">
         <div class="cate-con-item" v-show="isShowCurrent">
-          <div class="card-box" v-for="item in booksList" :key="item._id" @click="gotoNovelDetails">
-            <dl>
-              <dt>
-                <img :src="item.cover" alt />
-              </dt>
-              <dd>
-                <h3>{{ item.title }}</h3>
-                <p>{{ item.desc }}</p>
-                <div class="recommend-books">
-                  <span>{{ item.author}}</span>
-                  <span>{{ item.tags.split(",")[0]}}</span>
-                </div>
-              </dd>
-            </dl>
-          </div>
+          <van-list
+            class="card-box"
+            v-model="loading"
+            :finished="finished"
+            finished-text="没有更多了"
+            @load="onLoad"
+          >
+            <van-cell
+              v-for="item in booksList"
+              :key="item.title"
+              @click="gotoNovelDetails(item.bookid)"
+            >
+              <dl>
+                <dt>
+                  <img :src="item.cover" alt />
+                </dt>
+                <dd>
+                  <h3>{{ item.title }}</h3>
+                  <p>{{ item.desc }}</p>
+                  <div class="recommend-books">
+                    <span>{{ item.author}}</span>
+                    <span>{{ item.tags.split(",")[0]}}</span>
+                  </div>
+                </dd>
+              </dl>
+            </van-cell>
+          </van-list>
         </div>
 
         <div class="cate-con-item" v-show="!isShowCurrent">最热dddd!!!的屏幕！</div>
@@ -45,7 +57,11 @@ export default {
       page: 1,
       // m_id,
       size: 10,
+      total: "",
+      offset: 0,
       booksList: [],
+      loading: false,
+      finished: false,
       c_typeList: [
         {
           都市: "dushi",
@@ -64,9 +80,10 @@ export default {
     };
   },
   created() {
-    this.getNewList();
+    // this.getNewList();
   },
   mounted() {
+    this.getNewList();
     this.$store.commit("showTabbar", false);
   },
   destroyed() {
@@ -84,25 +101,41 @@ export default {
           }
         }
       });
-      console.log("我是类似", c_type);
+      // console.log("我是类似", c_type);
       const { data } = await this.$request.get("/category/cate", {
         params: {
-          page: 1,
+          page: this.page,
           size: 10,
           c_type,
         },
       });
-      console.log("我是查询data", data);
-      this.booksList = data;
+      // console.log("我是查询data11", data);
+      this.total = data.datalen;
+      this.booksList.push(...data.data);
     },
+    onLoad() {
+      this.page += 1;
+      this.offset = this.size * this.page;
+      this.getNewList();
+      // 加载状态结束
+      this.loading = false;
+      // 数据全部加载完成
+      if (this.booksList.length > 10) {
+        this.finished = true;
+      }
+    },
+
     cahngeTab() {
       this.isShowCurrent = !this.isShowCurrent;
     },
     //跳转到详情页！
-    gotoNovelDetails() {
+    gotoNovelDetails(id) {
+      console.log("我是跳转详情页");
       this.$router.push({
         name: "NovelDetails",
-        params: {},
+        params: {
+          id,
+        },
       });
     },
   },

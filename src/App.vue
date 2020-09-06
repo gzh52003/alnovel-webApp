@@ -20,6 +20,8 @@ import {
   Col,
   Row,
   Card,
+  List,
+  Cell,
 } from "vant";
 
 Vue.use(Image);
@@ -32,7 +34,10 @@ Vue.use(Tab);
 Vue.use(Tabs);
 Vue.use(Col);
 Vue.use(Row);
+Vue.use(List);
 Vue.use(Card);
+Vue.use(Cell);
+
 export default {
   components: {
     MainTabbar,
@@ -45,7 +50,6 @@ export default {
 };
 </script>
 <style lang="scss">
-
 @import url("../src/assets/css/normalize.css");
 @import url("../src/assets/css/base.css");
 @import url("../src/assets/css/reset.css");
