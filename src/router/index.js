@@ -102,7 +102,7 @@ const routes = [{
     name: 'Consume',
     meta: {
       title: "消费充值记录",
-      requestAuth: true
+      // requestAuth: true
     },
     component: () => import("../views/profile/Consume.vue")
   },
@@ -111,7 +111,7 @@ const routes = [{
     name: 'Bought',
     meta: {
       title: "购买过的书",
-      requestAuth: true
+      // requestAuth: true
     },
     component: () => import("../views/profile/Bought.vue")
   },
@@ -145,4 +145,9 @@ router.beforeEach((to, form, next) => {
     }
   }
 })
+
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 export default router

@@ -61,7 +61,7 @@ Vue.use(Toast);
 export default {
   data() {
     return {
-      reg: true,
+      // reg: true,
       checked: false,
       showLogin: false,
       Nosee: true,
@@ -87,9 +87,9 @@ export default {
     gotofindPsd() {
       this.$router.replace({
         name: "FindPsd",
-        query: {
-          reg: this.reg,
-        },
+        // query: {
+        //   reg: this.reg,
+        // },
       });
     },
     // 登录
@@ -241,9 +241,9 @@ export default {
     opacity: 0.4;
     border-radius: 8px;
   }
-  .active {
-    opacity: 1;
-  }
+  // .active {
+  //   opacity: 1;
+  // }
 }
 
 .thirdLoginArea {

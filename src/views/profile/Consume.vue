@@ -1,14 +1,26 @@
 <template>
   <div class="consume">
-    <div class="noIDshow">
+    <div class="noIDshow" v-if="!auth()">
       <img src="profile/noID.png" alt />
       <p>身份验证失败</p>
+    </div>
+    <div class="IDshow" v-else>
+      <img src="profile/bean-ticket.png" alt />
+      <p>暂无消费充值记录</p>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  methods: {
+    auth() {
+      return this.$store.state.auth;
+    },
+  },
+  created() {
+    this.$store.commit("getUserInfo");
+  },
   mounted() {
     this.$store.commit("showTabbar", false);
   },
@@ -25,7 +37,8 @@ export default {
   display: flex;
   align-items: center;
 }
-.noIDshow {
+.noIDshow,
+.IDshow {
   width: 138px;
   height: 138px;
   margin: auto;

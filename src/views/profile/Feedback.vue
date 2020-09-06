@@ -13,7 +13,7 @@
     <div class="tagBox">
       <div class="tagWrap" v-for="tag in tagList" :key="tag.title">
         <div class="tagLeft">
-          <img :src="tag.imgurl" alt="">
+          <img :src="tag.imgurl" alt />
           <span>{{tag.title}}</span>
         </div>
         <div class="tagRight">
@@ -28,6 +28,17 @@
             <li class="listItem">4</li>-->
           </ul>
         </div>
+      </div>
+    </div>
+    <!-- 底部 -->
+    <div class="footer">
+      <div class="serve">
+        <img src="profile/online.svg" alt />
+        <p>在线客服</p>
+      </div>
+      <div class="feedback">
+        <img src="profile/feedback.svg" alt />
+        <p>意见反馈</p>
       </div>
     </div>
   </div>
@@ -102,10 +113,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
-body {
-  background: #f5f5f5;
-  background: pink;
+.feedBack {
+  width: 100%;
+  height: 100%;
 }
+// body {
+//   background: #f5f5f5;
+//   background: pink;
+// }
 
 .homeSearch {
   height: 50px;
@@ -113,6 +128,7 @@ body {
   .search {
     height: 30px;
     width: 345px;
+    border-radius: 15px;
     margin: auto;
     background-color: rgba(0, 0, 0, 0.1);
     display: flex;
@@ -133,7 +149,7 @@ body {
   }
 }
 .tagBox {
-  // background: #fff;
+  background: #fff;
 }
 
 .tagWrap {
@@ -149,7 +165,7 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    img{
+    img {
       width: 30px;
       height: 30px;
     }
@@ -176,6 +192,24 @@ body {
         margin-right: 5px;
       }
     }
+  }
+}
+.footer {
+  position: relative;
+  bottom: -24px;
+  left: 0;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  .serve,
+  .feedback {
+    display: flex;
+  }
+  img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
   }
 }
 </style>
