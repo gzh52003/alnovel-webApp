@@ -8,7 +8,14 @@
 </template>
 
 <script>
-export default {};
+export default {
+  mounted() {
+    this.$store.commit("showTabbar", false);
+  },
+  destroyed() {
+    this.$store.commit("showTabbar", true);
+  },
+};
 </script>
 
 <style scoped lang="scss">
@@ -26,7 +33,7 @@ export default {};
     width: 100%;
     height: 100%;
   }
-  p{
+  p {
     text-align: center;
     font-size: 16px;
     color: #999;

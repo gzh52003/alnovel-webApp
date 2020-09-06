@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Shelf from '../views/shelf/Shelf.vue'
+import store from '../store/index'
 
 
 Vue.use(VueRouter)
@@ -82,7 +83,8 @@ const routes = [{
     path: '/myvip',
     name: 'MyVip',
     meta: {
-      title: "我的会员"
+      title: "我的会员",
+      requestAuth: true
     },
     component: () => import("../views/profile/MyVip.vue")
   },
@@ -90,7 +92,8 @@ const routes = [{
     path: '/topUp',
     name: 'TopUp',
     meta: {
-      title: "书豆充值"
+      title: "书豆充值",
+      requestAuth: true
     },
     component: () => import("../views/profile/TopUp.vue")
   },
@@ -98,7 +101,8 @@ const routes = [{
     path: '/consume',
     name: 'Consume',
     meta: {
-      title: "书豆充值"
+      title: "消费充值记录",
+      requestAuth: true
     },
     component: () => import("../views/profile/Consume.vue")
   },
@@ -106,7 +110,8 @@ const routes = [{
     path: '/bought',
     name: 'Bought',
     meta: {
-      title: "购买过的书"
+      title: "购买过的书",
+      requestAuth: true
     },
     component: () => import("../views/profile/Bought.vue")
   },
@@ -114,7 +119,7 @@ const routes = [{
     path: '/feedback',
     name: 'Feedback',
     meta: {
-      title: "意见反馈"
+      title: "意见反馈",
     },
     component: () => import("../views/profile/Feedback.vue")
   },
@@ -130,5 +135,14 @@ const router = new VueRouter({
 router.beforeEach((to, form, next) => {
   document.title = to.meta.title
   next()
+  if (to.meta.requestAuth) {
+    let auth = store.state.auth
+    console.log(auth)
+    if (auth) {
+      next()
+    } else {
+      router.push('/login')
+    }
+  }
 })
 export default router

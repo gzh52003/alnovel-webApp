@@ -92,6 +92,12 @@ export default {
       ],
     };
   },
+  mounted() {
+    this.$store.commit("showTabbar", false);
+  },
+  destroyed() {
+    this.$store.commit("showTabbar", true);
+  },
 };
 </script>
 

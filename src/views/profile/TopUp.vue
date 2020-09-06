@@ -78,6 +78,12 @@ export default {
       ],
     };
   },
+  mounted() {
+    this.$store.commit("showTabbar", false);
+  },
+  destroyed() {
+    this.$store.commit("showTabbar", true);
+  },
 };
 </script>
 
@@ -136,10 +142,10 @@ export default {
       position: absolute;
       left: 0;
       top: 0;
-    } 
+    }
     .two {
-        top: 48px;
-      }
+      top: 48px;
+    }
     &:nth-child(1) {
       font-size: 13px;
       color: #bbb;

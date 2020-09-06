@@ -12,7 +12,7 @@
       <div class="inputWrap">
         <input
           type="text"
-          :placeholder="showLogin === true ? '请输入手机号':'请输入手机号/邮箱'"
+          :placeholder="showLogin === true ? '请输入用户名':'请输入用户名/邮箱'"
           v-model="userPhone"
         />
       </div>
@@ -24,7 +24,7 @@
         <button class="getCode" v-if="showLogin">获取验证码</button>
         <!-- 显示和隐藏密码 -->
         <span class="eye" v-else @click="closeEye">
-          <img src="profile/openEye.svg" alt="可见" v-if="Nosee" />
+          <img src="profile/openEye.svg" alt="可见" v-if="!Nosee" />
           <img src="profile/closeEye.svg" alt="不可见" v-else />
         </span>
       </div>
@@ -39,7 +39,7 @@
         <a href="javascript:;" class="hightlight">《隐私服务协议》</a>
       </div>
       <div class="btnWrap">
-        <button class="btnLogin">登录</button>
+        <button class="btnLogin" @click="btnLogin" :style="checked===true? 'opacity: 1':''">登录</button>
       </div>
       <div class="thirdLoginArea">
         <van-divider :style="{ borderColor: '#a1a1b3' }" class="divider">使用以下账号可免注册</van-divider>
@@ -53,9 +53,10 @@
 
 <script>
 import Vue from "vue";
-import { Checkbox, Divider } from "vant";
+import { Checkbox, Divider, Toast } from "vant";
 Vue.use(Checkbox);
 Vue.use(Divider);
+Vue.use(Toast);
 
 export default {
   data() {
@@ -91,6 +92,40 @@ export default {
         },
       });
     },
+    // 登录
+    async btnLogin() {
+      // console.log(this.userPhone,this.userPsd)
+      const username = this.userPhone.trim();
+      const password = this.userPsd;
+      if (this.checked && this.userPhone === "") {
+        Toast("请输入手机号和密码");
+        return false;
+      }
+      if (this.checked) {
+        const { data } = await this.$request.post("/login", {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          username: username,
+          password: password,
+        });
+        // console.log(data);
+        // console.log(data.msg);
+        if (data.msg === "fail") {
+          Toast("手机号或密码错误");
+        } else {
+          localStorage.setItem("userInfo", data.data.authorization);
+
+          this.$router.push("/profile");
+        }
+      }
+    },
+  },
+  mounted() {
+    this.$store.commit("showTabbar", false);
+  },
+  destroyed() {
+    this.$store.commit("showTabbar", true);
   },
 };
 </script>
@@ -205,6 +240,9 @@ export default {
     outline: none;
     opacity: 0.4;
     border-radius: 8px;
+  }
+  .active {
+    opacity: 1;
   }
 }
 

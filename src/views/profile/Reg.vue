@@ -66,9 +66,15 @@ export default {
     $route(to) {
       if (to.path !== "/reg") {
         // this.reg();
-        console.log(this.$router.query)
+        console.log(this.$router.query);
       }
     },
+  },
+  mounted() {
+    this.$store.commit("showTabbar", false);
+  },
+  destroyed() {
+    this.$store.commit("showTabbar", true);
   },
 };
 </script>

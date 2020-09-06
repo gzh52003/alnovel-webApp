@@ -21,6 +21,12 @@ export default {
   created() {
     this.noIDshow();
   },
+   mounted() {
+    this.$store.commit("showTabbar", false);
+  },
+  destroyed() {
+    this.$store.commit("showTabbar", true);
+  },
 };
 </script>
 

@@ -4,10 +4,13 @@
       <div class="vipHeader">
         <div class="userInfo">
           <div class="avatar">
-            <img src="profile/defaultprofile.png" alt />
+            <img
+              :src="!auth()===true ? 'profile/defaultprofile.png':'profile/defaultLoginAvatar.png'"
+              alt="默认未登录头像"
+            />
           </div>
           <div class="user">
-            <p class="authName">西伯利亚二哈</p>
+            <p class="authName">{{!auth()===true?'西伯利亚二哈':'书友1841147070'}}</p>
             <p class="desc">
               <van-icon name="vip-card-o" size="20px" color="#cca985"></van-icon>开通会员，海量小说免费读
             </p>
@@ -89,7 +92,23 @@
 import Vue from "vue";
 import { Icon } from "vant";
 Vue.use(Icon);
-export default {};
+export default {
+  methods: {
+    auth() {
+      return this.$store.state.auth;
+    },
+  },
+  mounted() {
+    this.$store.commit("showTabbar", false);
+  },
+  destroyed() {
+    this.$store.commit("showTabbar", true);
+  },
+  created() {
+    // this.getUserInfo();
+    this.$store.commit("getUserInfo");
+  },
+};
 </script>
 
 <style scoped lang="scss">
@@ -107,6 +126,8 @@ export default {};
   .avatar {
     width: 60px;
     height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
     img {
       width: 100%;
       height: 100%;
@@ -229,7 +250,7 @@ export default {};
         height: 20px;
         line-height: 20px;
       }
-      span{
+      span {
         color: #cca985;
       }
     }
@@ -275,10 +296,10 @@ export default {};
                 height: 42px;
                 display: flex;
                 justify-content: space-between;
-                .auth{
+                .auth {
                   color: #999;
                 }
-                .classify{
+                .classify {
                   height: 16px;
                   background: #fff;
                   padding: 0 5px;
