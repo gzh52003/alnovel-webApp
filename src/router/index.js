@@ -78,6 +78,54 @@ const routes = [{
     },
     component: () => import("../views/profile/Reg.vue")
   },
+  {
+    path: '/findPsd',
+    name: 'FindPsd',
+    meta: {
+      title: "找回密码"
+    },
+    component: () => import("../views/profile/Reg.vue")
+  },
+  {
+    path: '/myvip',
+    name: 'MyVip',
+    meta: {
+      title: "我的会员"
+    },
+    component: () => import("../views/profile/MyVip.vue")
+  },
+  {
+    path: '/topUp',
+    name: 'TopUp',
+    meta: {
+      title: "书豆充值"
+    },
+    component: () => import("../views/profile/TopUp.vue")
+  },
+  {
+    path: '/consume',
+    name: 'Consume',
+    meta: {
+      title: "书豆充值"
+    },
+    component: () => import("../views/profile/Consume.vue")
+  },
+  {
+    path: '/bought',
+    name: 'Bought',
+    meta: {
+      title: "购买过的书"
+    },
+    component: () => import("../views/profile/Bought.vue")
+  },
+  {
+    path: '/feedback',
+    name: 'Feedback',
+    meta: {
+      title: "意见反馈"
+    },
+    component: () => import("../views/profile/Feedback.vue")
+  },
 ]
 
 const router = new VueRouter({

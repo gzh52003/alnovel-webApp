@@ -1,0 +1,129 @@
+@charset "utf-8";
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+ol,
+ul,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+th,
+td,
+dl,
+dd,
+form,
+fieldset,
+legend,
+input,
+textarea,
+select {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "微软雅黑";
+}
+
+em,
+i {
+  font-style: normal;
+}
+
+li,
+ul,
+ol {
+  list-style: none;
+}
+
+a,
+u {
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 16px;
+  font-weight: normal;
+}
+
+b,
+strong {
+  font-weight: normal;
+}
+
+i,
+em {
+  font-style: normal;
+}
+
+a,
+u {
+  text-decoration: none;
+}
+
+img {
+  border: 0;
+  display: block;
+}
+
+input,
+fieldset {
+  outline: none;
+  border: 0;
+  background: #fff;
+}
+
+/* 左浮动 */
+.float_left {
+  float: left;
+}
+
+/* 右浮动 */
+.float_right {
+  float: right;
+}
+
+/* 清除边框 */
+.border_none {
+  border: none !important;
+}
+
+/* 清除背景 */
+.bg_none {
+  background: none !important;
+}
+
+/* 清除单行文本 */
+.text_ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 清除浮动 */
+.clear_fix:after {
+  content: '.';
+  clear: both;
+  height: 0;
+  overflow: hidden;
+  display: block;
+  visibility: hidden;
+}
+
+.clear_fix {
+  zoom: 1;
+}

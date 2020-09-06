@@ -7,14 +7,14 @@
         <img src="profile/defaultprofile.png" alt="默认头像" />
       </div>
       <div class="mg-top">
-        <span class="login" @click="login">登录</span>
+        <span class="login" @click="login()">登录</span>
         <span class="mg-5">/</span>
-        <span class="reg" @click="reg">注册</span>
+        <span class="reg" @click="reg()">注册</span>
       </div>
     </div>
     <!-- 我的列表 -->
     <div class="myprofile-item">
-      <div class="myprofile-info" v-for="(item,idx) in list" :key="idx">
+      <div class="myprofile-info" v-for="(item,idx) in list" :key="idx" @click="profileDetail(item.path)">
         <span class="item-title">{{item.title}}</span>
         <span class="item-intro">{{item.intro}}</span>
         <span class="item-icon">
@@ -41,26 +41,31 @@ export default {
           title: "我的会员",
           intro: "开通会员",
           icon: "arrow",
+          path:'/myVip'
         },
         {
           title: "书豆",
           intro: "充值",
           icon: "arrow",
+          path:'/topUp'
         },
         {
           title: "消费充值记录",
           intro: "",
           icon: "arrow",
+          path:'/consume'
         },
         {
           title: "购买过的书",
           intro: "",
           icon: "arrow",
+          path:'/bought'
         },
         {
           title: "意见反馈",
           intro: "ID:8000000",
           icon: "arrow",
+          path:'/feedback'
         },
       ],
     };
@@ -72,6 +77,9 @@ export default {
     reg() {
       this.$router.push("/reg");
     },
+    profileDetail(mypath){
+      this.$router.push(mypath)           
+    }
   },
   components: {},
 };
@@ -80,37 +88,40 @@ export default {
 .myprofile-header {
   display: flex;
   margin: 14px auto 16px;
-  width: 288px;
+  width: 343px;
   height: 124px;
-  // background: pink;
   box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.1);
-  // justify-content: center;
 }
 .myportrait {
   width: 60px;
   height: 60px;
   margin: 32px 16px;
+  border-radius: 50%;
+  overflow:hidden;
   img {
     width: 100%;
     height: 100%;
+    background: rgba(0,0,0,0.1);
   }
 }
 .mg-top {
-  margin-top: 48px;
+  display: flex;
+  align-items: center;
   font-size: 18px;
   color: #333;
   font-weight: 600;
   .mg-5{
-    margin: 5px;
+    margin: 7px;
+    font-size: 22px;
   }
 }
 
 .myprofile-item {
-  width: 320px;
+  width: 100%;
   height: 315px;
-  // background: pink;
   .myprofile-info {
     display: flex;
+    justify-content: space-between;
     padding: 0 16px;
     line-height: 63px;
     height: 63px;
@@ -127,7 +138,7 @@ export default {
       right: 16px;
     }
     .item-title {
-      width: 144px;
+      width: 199px;
       font-size: 16px;
       color: #333;
     }
