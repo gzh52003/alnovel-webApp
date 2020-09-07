@@ -16,11 +16,11 @@
     </div>
 
     <div class="mail">
-      <div class="item" @click="goto('/booksdetail')">
+      <div class="item" @click="goto('/booksdetail/femail')">
         <i></i>
         <span>女生</span>
       </div>
-      <div class="item item2" @click="goto('/booksdetail')">
+      <div class="item item2" @click="goto('/booksdetail/mail')">
         <i></i>
         <span>男主</span>
       </div>
@@ -55,7 +55,7 @@
     <div class="shuangwen">
       <h4 class="tit">
         男生爽文
-        <span @click="change()">换一换</span>
+        <span @click="change('shuwangwen')">换一换</span>
       </h4>
       <ul>
         <li v-for="item in shuwangwenlist" :key="item.book_name">
@@ -78,7 +78,7 @@
     <div class="shuangwen">
       <h4 class="tit">
         女生畅销
-        <span>换一换</span>
+        <span @click="change('changxiao')">换一换</span>
       </h4>
       <ul>
         <li v-for="item in changxiaolist" :key="item.book_name">
@@ -101,7 +101,7 @@
     <div class="nanpin">
       <h4 class="tit">
         男频最新爆款
-        <span>换一换</span>
+        <span @click="change('nanpin')">换一换</span>
       </h4>
 
       <van-grid :column-num="3" :border="false">
@@ -117,7 +117,7 @@
     <div class="nanpin">
       <h4 class="tit">
         女频最新红文
-        <span>换一换</span>
+        <span @click="change()">换一换</span>
       </h4>
 
       <van-grid :column-num="3" :border="false">
@@ -133,7 +133,7 @@
     <div class="nanpin">
       <h4 class="tit">
         男频完结精品
-        <span>换一换</span>
+        <span @click="change()">换一换</span>
       </h4>
 
       <van-grid :column-num="3" :border="false">
@@ -149,7 +149,7 @@
     <div class="nanpin nvwanjie">
       <h4 class="tit">
         女频完结精品
-        <span>换一换</span>
+        <span @click="change()">换一换</span>
       </h4>
 
       <van-grid :column-num="3" :border="false">
@@ -184,7 +184,7 @@ export default {
       // nanpinlist: [],
       nvpinlist: [],
       shuwangwenlist: [],
-      changxiaolist: [],
+      // changxiaolist: [],
       xinkuanlist: [],
       nanwanjielist: [],
       nvwanjielist: [],
@@ -194,34 +194,41 @@ export default {
     nanpinlist() {
       return this.$store.state.bookcity.nanpinlist;
     },
+    changxiaolist(){
+      return this.$store.state.bookcity.changxiaolist
+    }
   },
   methods: {
     goto(path) {
       this.$router.push(path);
     },
-    async change() {
-      const { data: nanwanjie } = await this.$request.get("/bookscity/", {
-        params: {
-          leibie: "nanwanjie",
-        },
-      });
-      console.log(nanwanjie);
-      this.shuwangwenjielist = [];
-      console.log(this.shuwangwenjielist);
-      this.shuwangwenjielist = nanwanjie.data;
-      console.log(this.shuwangwenjielist);
+    async change(name) {
+      if (name === "shuwangwen") {
+        const { data: nanwanjie } = await this.$request.get("/bookscity/", {
+          params: {
+            leibie: "nanwanjie",
+          },
+        });
+        // console.log(nanwanjie);
+        this.shuwangwenlist = [];
+        // console.log(this.shuwangwenlist);
+        this.shuwangwenlist = nanwanjie.data;
+        // console.log(this.shuwangwenlist);
+      } else if (name === "changxiao") {
+        console.log(name)
+        const { data: changxiao } = await this.$request.get("/bookscity/", {
+          params: {
+            leibie: "nanpin",
+          },
+        });
+        
+        console.log(this.changxiaolist);
+        // 因为changxiaolist的数据是共享仓库里面的 mutation下的changechangxiao
+        this.$store.commit('changechangxiao',changxiao.data)
+        
+      }
     },
-    // 发送请求数据
-    //  async requestData(colName){
-    //     // const listname = colName
-    //     const {data} = await this.$request.get("/bookscity/", {
-    //       params: {
-    //         leibie: colName,
-    //       }
-    //     })
-    //     this.nanpin = data
 
-    //   },
     // 获取数据
     async getData() {
       // const { data: nanpin } = await this.$request.get("/bookscity");
@@ -235,11 +242,11 @@ export default {
           leibie: "shuwangwen",
         },
       });
-      const { data: changxiao } = await this.$request.get("/bookscity/", {
-        params: {
-          leibie: "changxiao",
-        },
-      });
+      // const { data: changxiao } = await this.$request.get("/bookscity/", {
+      //   params: {
+      //     leibie: "changxiao",
+      //   },
+      // });
       const { data: xinkuan } = await this.$request.get("/bookscity/", {
         params: {
           leibie: "xinkuan",
@@ -258,7 +265,7 @@ export default {
       // this.nanpinlist = nanpin.data;
       this.nvpinlist = nvpin.data;
       this.shuwangwenlist = shuwangwen.data;
-      this.changxiaolist = changxiao.data;
+      // this.changxiaolist = changxiao.data;
       this.xinkuanlist = xinkuan.data;
       this.nanwanjielist = nanwanjie.data;
       this.nvwanjielist = nvwanjie.data;
@@ -267,6 +274,10 @@ export default {
   mounted() {
     this.getData();
     console.log(this.$store);
+  },
+
+  created() {
+    this.$store.dispatch("getData");
   },
 };
 </script>

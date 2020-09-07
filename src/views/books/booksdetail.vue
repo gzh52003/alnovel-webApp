@@ -16,7 +16,6 @@
           <van-grid-item v-for="item in nvwanjielist" :key="item.book_name">
             <van-image :src="item.img_url" />
             <p>{{ item.book_name }}</p>
-            <!-- class="book_name" class="author"-->
             <p class="author">{{ item.author }}</p>
           </van-grid-item>
         </van-grid>
@@ -28,7 +27,8 @@
     <div class="lijian xinshu">
       <h4>
         <img src="../../../public/img/4.png" alt />
-        <p>男生新书</p>
+        <p v-if="this.id === 'femail'">{{title}}</p>
+        <p v-else>男生新书</p>
         <div class="change">
           <img src="../../../public/img/5.png" alt />
           <span>换一换</span>
@@ -41,7 +41,6 @@
           <van-grid-item v-for="item in nanxinshulist" :key="item.book_name">
             <van-image :src="item.img_url" />
             <p>{{ item.book_name }}</p>
-            <!-- class="book_name" class="author"-->
             <p class="author">{{ item.author }}</p>
           </van-grid-item>
         </van-grid>
@@ -103,13 +102,6 @@
                   text-color="#a1a1b3"
                   >{{ item.tag }}</van-tag
                 >
-                <!-- <van-tag
-                  size="mini"
-                  plain
-                  text-color="#23b383"
-                  style="margin-right:5px;"
-                  >{{ item.tag }}</van-tag
-                > -->
               </p>
             </div>
           </li>
@@ -130,7 +122,11 @@ export default {
   data() {
     return {
       nanpinlist: [],
+      title: "女生新书",
 
+      // 默认是女生
+      id: "mail",
+      nvwanjielist: [],
       nanxinshulist: [
         {
           img_url: "/img/1160738054673.jpg",
@@ -158,9 +154,6 @@ export default {
     };
   },
   computed: {
-    nvwanjielist() {
-      return this.$store.state.bookcity.nvwanjielist;
-    },
     xihuanlist() {
       return this.$store.state.bookcity.xihuanlist;
     },
@@ -170,6 +163,15 @@ export default {
   },
   created() {
     this.$store.commit("displayTabbar", false);
+    const { id } = this.$route.params;
+    this.id = id;
+    console.log(this.$route.params);
+    if (this.id === "femail") {
+      console.log(66);
+      this.nvwanjielist = this.$store.state.bookcity.nvwanjielist;
+    } else if (this.id === "mail") {
+      this.nvwanjielist = this.$store.state.bookcity.xihuanlist;
+    }
   },
   destroyed() {
     this.$store.commit("displayTabbar", true);

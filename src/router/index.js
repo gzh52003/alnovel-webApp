@@ -34,7 +34,7 @@ const routes = [{
     component: () => import("../views/books/Books.vue")
   }, 
   {
-    path: '/booksdetail',
+    path: '/booksdetail/:id',
     name: 'Booksdetail',
     meta: {
       title: "女生"

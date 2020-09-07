@@ -24,7 +24,6 @@ export default new Vuex.Store({
       // console.log(this.auth);
     },
   },
-<<<<<<< HEAD
   actions: {
   },
   modules: {
@@ -32,8 +31,5 @@ export default new Vuex.Store({
     bookcity
   }
 })
-=======
-  actions: {},
-  modules: {}
-})
->>>>>>> 5e706c1e30532776a56a967c98bb8e76a431ad90
+
+
