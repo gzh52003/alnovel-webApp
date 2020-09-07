@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <main-tabbar></main-tabbar>
+    <main-tabbar v-show="isShowTabBar"></main-tabbar>
     <router-view />
   </div>
 </template>
@@ -19,6 +19,9 @@ import {
   Tabs,
   Col,
   Row,
+  Card,
+  List,
+  Cell,
 } from "vant";
 
 Vue.use(Image);
@@ -31,19 +34,29 @@ Vue.use(Tab);
 Vue.use(Tabs);
 Vue.use(Col);
 Vue.use(Row);
+Vue.use(List);
+Vue.use(Card);
+Vue.use(Cell);
+
 export default {
   components: {
     MainTabbar,
   },
+  computed: {
+    isShowTabBar() {
+      return this.$store.state.isShowTabbar;
+    },
+  },
 };
 </script>
 <style lang="scss">
-
 @import url("../src/assets/css/normalize.css");
 @import url("../src/assets/css/base.css");
+@import url("../src/assets/css/reset.css");
 
 #app {
   height: 100%;
   width: 100%;
+  // background: #ccc;
 }
 </style>

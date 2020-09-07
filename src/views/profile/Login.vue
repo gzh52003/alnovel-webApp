@@ -3,27 +3,28 @@
     <div class="titleWrap">
       <img src="profile/loginLogo.png" alt="书旗小说" class="logo" />
       <p class="link">
-        <a href="javascript:;" @click="gotoReg">注册</a>
+        <a href="javascript:;" @click="gotoReg()">注册</a>
         /
-        <a href="javascript:;">找回</a>
+        <a href="javascript:;" @click="gotofindPsd()">找回</a>
       </p>
     </div>
     <div class="formWrap">
       <div class="inputWrap">
-        <input type="text" :placeholder="showLogin === true ? '请输入手机号':'请输入手机号/邮箱'" v-model="userPhone"/>
+        <input
+          type="text"
+          :placeholder="showLogin === true ? '请输入用户名':'请输入用户名/邮箱'"
+          v-model="userPhone"
+        />
       </div>
       <div class="inputWrap">
         <!-- 密码验证 -->
-        <input
-          :type="Nosee===true?'password':'text'"
-          :placeholder="showLogin === true ? '请输入验证码':'请输入密码'"
-          v-model="userPsd"
-        />
+        <input v-if="showLogin" type="text" placeholder="请输入验证码" v-model="userCode" />
+        <input v-else :type="Nosee===true?'password':'text'" placeholder="请输入密码" v-model="userPsd" />
         <!-- 获取验证码 -->
         <button class="getCode" v-if="showLogin">获取验证码</button>
         <!-- 显示和隐藏密码 -->
         <span class="eye" v-else @click="closeEye">
-          <img src="profile/openEye.svg" alt="可见" v-if="Nosee" />
+          <img src="profile/openEye.svg" alt="可见" v-if="!Nosee" />
           <img src="profile/closeEye.svg" alt="不可见" v-else />
         </span>
       </div>
@@ -32,12 +33,13 @@
         <a href="javascript:;" @click="switchLogin">{{showLogin === true?'密码登录':'验证码登录'}}</a>
       </div>
       <div class="CheckBoxWrap">
-        <van-checkbox v-model="checked" class="checkbox"></van-checkbox>同意
-        <a href="javascript:;">《阿里文学说用户服务协议》</a>
-        <a href="javascript:;">《隐私服务协议》</a>
+        <van-checkbox v-model="checked" class="checkbox" icon-size="12"></van-checkbox>同意
+        <a href="javascript:;" class="hightlight">《阿里文学说用户服务协议》</a>
+        和
+        <a href="javascript:;" class="hightlight">《隐私服务协议》</a>
       </div>
       <div class="btnWrap">
-        <button class="btnLogin">登录</button>
+        <button class="btnLogin" @click="btnLogin" :style="checked===true? 'opacity: 1':''">登录</button>
       </div>
       <div class="thirdLoginArea">
         <van-divider :style="{ borderColor: '#a1a1b3' }" class="divider">使用以下账号可免注册</van-divider>
@@ -51,18 +53,21 @@
 
 <script>
 import Vue from "vue";
-import { Checkbox, Divider } from "vant";
+import { Checkbox, Divider, Toast } from "vant";
 Vue.use(Checkbox);
 Vue.use(Divider);
+Vue.use(Toast);
 
 export default {
   data() {
     return {
+      // reg: true,
       checked: false,
       showLogin: false,
       Nosee: true,
-      userPhone:'',
-      userPsd:'',
+      userPhone: "",
+      userPsd: "",
+      userCode: "",
     };
   },
   methods: {
@@ -76,8 +81,51 @@ export default {
     },
     // 跳转到注册页
     gotoReg() {
-      this.$router.push("/reg");
+      this.$router.replace("/reg");
     },
+    // 跳转到找回密码页 condition状态
+    gotofindPsd() {
+      this.$router.replace({
+        name: "FindPsd",
+        // query: {
+        //   reg: this.reg,
+        // },
+      });
+    },
+    // 登录
+    async btnLogin() {
+      // console.log(this.userPhone,this.userPsd)
+      const username = this.userPhone.trim();
+      const password = this.userPsd;
+      if (this.checked && this.userPhone === "") {
+        Toast("请输入手机号和密码");
+        return false;
+      }
+      if (this.checked) {
+        const { data } = await this.$request.post("/login", {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          username: username,
+          password: password,
+        });
+        // console.log(data);
+        // console.log(data.msg);
+        if (data.msg === "fail") {
+          Toast("手机号或密码错误");
+        } else {
+          localStorage.setItem("userInfo", data.data.authorization);
+
+          this.$router.push("/profile");
+        }
+      }
+    },
+  },
+  mounted() {
+    this.$store.commit("showTabbar", false);
+  },
+  destroyed() {
+    this.$store.commit("showTabbar", true);
   },
 };
 </script>
@@ -91,6 +139,7 @@ export default {
 .titleWrap {
   width: 100%;
   height: 36px;
+  align-items: center;
   display: flex;
   justify-content: space-between;
   margin-bottom: 17px;
@@ -100,6 +149,7 @@ export default {
     height: 36px;
   }
   .link {
+    // padding-top: 12px;
     font-size: 12px;
     line-height: 12px;
     a {
@@ -118,7 +168,7 @@ export default {
     width: 100%;
     height: 44px;
     background: #f7f7fa;
-    font-size: 12px;
+    font-size: 14px;
     color: #1d1e1f;
     padding: 12px 13px;
     border-radius: 4px;
@@ -126,15 +176,16 @@ export default {
   .getCode {
     border: 0;
     outline: none;
-    background: #23b383;
     height: 33px;
     opacity: 0.3;
+    font-size: 12px;
+    color: #fff;
+    background: #23b383;
+    border-radius: 4px;
     position: absolute;
     right: 5px;
     bottom: 5px;
-    font-size: 12px;
-    color: #fff;
-    border-radius: 4px;
+    padding: 0 10px;
   }
   .eye {
     width: 20px;
@@ -154,6 +205,7 @@ export default {
   display: flex;
   justify-content: flex-end;
   font-size: 12px;
+  margin-bottom: 20px;
   a {
     color: #a1a1b3;
   }
@@ -161,16 +213,16 @@ export default {
 
 .CheckBoxWrap {
   display: flex;
+  align-items: center;
+  height: 28px;
   font-size: 12px;
   margin-bottom: 10px;
-  // .checkbox {
-  //   .van-checkbox__icon .van-icon{
-  //     // font-size: .6em;
-  //   }
-  // }
-  a {
-    padding: 0;
-    margin: 0;
+  .checkbox {
+    margin: 0 5px;
+  }
+  .hightlight {
+    font-size: 12px;
+    color: #38b383;
   }
 }
 
@@ -189,6 +241,9 @@ export default {
     opacity: 0.4;
     border-radius: 8px;
   }
+  // .active {
+  //   opacity: 1;
+  // }
 }
 
 .thirdLoginArea {
