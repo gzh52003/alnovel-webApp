@@ -1,6 +1,6 @@
 <!--  -->
 <template>
-  <van-tabbar route v-model="active" class="main-tabbar">
+  <van-tabbar route v-model="active" class="main-tabbar" v-show="showTabbar">
     <van-tabbar-item
       v-for="item in tabList"
       :key="item.text"
@@ -8,6 +8,7 @@
       :icon="item.icon"
       :name="item.name"
       :to="item.path"
+      
     >{{ item.text }}</van-tabbar-item>
   </van-tabbar>
 </template>
@@ -23,6 +24,7 @@ export default {
   data() {
     return {
       active: "shelf",
+      // showMenu:true,
       tabList: [
         {
           name: "shelf",
@@ -53,6 +55,11 @@ export default {
   },
   methods: {},
   components: {},
+  computed:{
+    showTabbar(){
+      return this.$store.state.common.showTabbar
+    }
+  }
 };
 </script>
 <style  lang="scss" scoped>

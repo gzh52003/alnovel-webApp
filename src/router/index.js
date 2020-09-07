@@ -23,7 +23,16 @@ const routes = [{
       title: "书城"
     },
     component: () => import("../views/books/Books.vue")
-  }, {
+  }, 
+  {
+    path: '/booksdetail',
+    name: 'Booksdetail',
+    meta: {
+      title: "女生"
+    },
+    component: () => import("../views/books/booksdetail.vue")
+  },
+  {
     path: '/category',
     name: 'Category',
     meta: {

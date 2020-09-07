@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import common from './common.js'
+import bookcity from './bookcity.js'
 Vue.use(Vuex)
+
 
 export default new Vuex.Store({
   state: {
@@ -11,5 +13,7 @@ export default new Vuex.Store({
   actions: {
   },
   modules: {
+    common,
+    bookcity
   }
 })
