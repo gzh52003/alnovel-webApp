@@ -109,7 +109,7 @@ const routes = [{
     name: 'MyVip',
     meta: {
       title: "我的会员",
-      requestAuth: true
+      // requestAuth: true
     },
     component: () => import("../views/profile/MyVip.vue")
   },
@@ -118,7 +118,7 @@ const routes = [{
     name: 'TopUp',
     meta: {
       title: "书豆充值",
-      requestAuth: true
+      // requestAuth: true
     },
     component: () => import("../views/profile/TopUp.vue")
   },
@@ -167,7 +167,7 @@ router.beforeEach((to, form, next) => {
   next()
   if (to.meta.requestAuth) {
     let auth = store.state.auth
-    console.log(auth)
+    // console.log(auth)
     if (auth) {
       next()
     } else {
