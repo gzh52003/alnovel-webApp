@@ -42,6 +42,14 @@ const routes = [{
     component: () => import("../views/books/booksdetail.vue")
   },
   {
+    path:'/booksearch',
+    name:'Booksearch',
+    meta:{
+      title:"书城搜索"
+    },
+    component:()=>import("../views/books/booksearch.vue")
+  },
+  {
     path: '/category',
     name: 'Category',
     meta: {

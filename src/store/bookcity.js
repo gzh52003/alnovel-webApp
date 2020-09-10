@@ -1,11 +1,14 @@
 import request from '../newwork/request'
 const bookcity = {
     state: {
+        // comhistory:[],
         nanpinlist: [],
         changxiaolist: [],
          nvwanjielist: [],
         xihuanlist: [],
-        
+        douluolist:[
+
+        ]
     },
     mutations: {
         insertnanpinlist(state, data) {
@@ -13,6 +16,7 @@ const bookcity = {
             state.changxiaolist = data.changxiaolist
             state.nvwanjielist = data.nvwanjielist
             state.xihuanlist = data.xihuanlist
+            state.douluolist = data.douluolist
         },
         // 点击畅销换一换 
         changechangxiao(state,data){
@@ -50,11 +54,21 @@ const bookcity = {
                     leibie:"xihuan"
                 }
             });
+
+            const {
+                data: douluolist
+            } = await request.get("/bookscity",{
+                params:{
+                    leibie:"douluo"
+                }
+            });
             context.commit('insertnanpinlist', {
                 nanpinlist:nanpin.data,
                 changxiaolist:changxiaolist.data,
                 nvwanjielist:nvwanjielist.data,
-                xihuanlist:xihuanlist.data 
+                xihuanlist:xihuanlist.data ,
+                douluolist:douluolist.data 
+                
             })
         }
     }

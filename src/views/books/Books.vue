@@ -2,7 +2,7 @@
 <template>
   <div class="body">
     <van-cell-group class="input-box">
-      <van-field v-model="value" placeholder="请输入书名或作者名">
+      <van-field v-model="value" placeholder="请输入书名或作者名" @focus="goto('/booksearch')">
         <!-- 插槽一定要写在这个字段组件里面 因为是属于这个组件里面的 -->
         <template #left-icon>
           <van-icon name="search" size="18" />
@@ -204,15 +204,15 @@ export default {
     },
     async change(name) {
       if (name === "shuwangwen") {
-        const { data: nanwanjie } = await this.$request.get("/bookscity/", {
+        const { data: changxiao } = await this.$request.get("/bookscity/", {
           params: {
-            leibie: "nanwanjie",
+            leibie: "changxiao",
           },
         });
         // console.log(nanwanjie);
         this.shuwangwenlist = [];
         // console.log(this.shuwangwenlist);
-        this.shuwangwenlist = nanwanjie.data;
+        this.shuwangwenlist = changxiao.data;
         // console.log(this.shuwangwenlist);
       } else if (name === "changxiao") {
         console.log(name)
@@ -242,11 +242,7 @@ export default {
           leibie: "shuwangwen",
         },
       });
-      // const { data: changxiao } = await this.$request.get("/bookscity/", {
-      //   params: {
-      //     leibie: "changxiao",
-      //   },
-      // });
+    
       const { data: xinkuan } = await this.$request.get("/bookscity/", {
         params: {
           leibie: "xinkuan",
@@ -285,8 +281,24 @@ export default {
 .body {
   padding: 0 16px;
 }
+// 头部样式
 .van-field__left-icon {
   line-height: 0px;
+}
+.van-cell {
+  background-color: #f5f5f5;
+  width: 343px;
+  height: 31px;
+  line-height: 0px;
+  margin: 8px 0;
+}
+.van-field__left-icon {
+  height: 18px;
+  // background-color: red;
+  line-height: 18px;
+}
+::v-deep .van-field__left-icon .van-icon {
+  line-height: 16px;
 }
 // 多复用样式样式
 
@@ -301,18 +313,7 @@ export default {
   margin-left: 4px;
 }
 
-.van-cell {
-  background-color: #f5f5f5;
-  width: 343px;
-  height: 31px;
-  line-height: 0px;
-  margin: 8px 0;
-}
-.van-field__left-icon {
-  height: 18px;
-  // background-color: red;
-  line-height: 18px;
-}
+
 .menmian {
   width: 343px;
   height: 159px;
@@ -364,9 +365,7 @@ export default {
     }
   }
 }
-::v-deep .van-field__left-icon .van-icon {
-  line-height: 16px;
-}
+
 .nanpin {
   width: 343px;
   height: 240px;
