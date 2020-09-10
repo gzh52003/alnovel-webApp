@@ -10,7 +10,11 @@
       </div>
       <div class="inputWrap">
         <input placeholder="请输入验证码" v-model="userPsd" />
-        <button class="getCode" :style="userPhone.length===11?'opacity: 1':''">获取验证码</button>
+        <button
+          class="getCode"
+          :style="userPhone.length===11?'opacity: 1':''"
+          @click="sendSms()"
+        >获取验证码</button>
       </div>
       <div class="CheckBoxWrap">
         <van-checkbox v-model="checked" class="checkbox" icon-size="12"></van-checkbox>同意
@@ -46,25 +50,38 @@ export default {
     };
   },
   methods: {
+    // 返回
     goback() {
       this.$router.replace("/login");
     },
+    // 注册
     async btnReg() {
-      if (this.checked && this.userPhone.trim() !== "" && this.userPsd !== "") {
-        // if (this.userPhone.trim() === "" && this.userPsd === "") {
-        //   Toast("请输入手机号和验证码");
-        //   return false;
-        // }
-        const { data } = await this.$request.post("muser", {
-          username: this.userPhone,
-          password: this.userPsd,
-        });
-        console.log(data);
-        if (data.msg === "添加成功") {
-          Toast("注册成功");
-          this.$router.push("/login");
+      if (this.title === "注册") {
+        console.log(1)
+        if (
+          this.checked &&
+          this.userPhone.trim() !== "" &&
+          this.userPsd !== ""
+        ) {
+          // if (this.userPhone.trim() === "" && this.userPsd === "") {
+          //   Toast("请输入手机号和验证码");
+          //   return false;
+          // }
+          const { data } = await this.$request.post("muser", {
+            username: this.userPhone,
+            password: this.userPsd,
+          });
+          console.log(data);
+          if (data.msg === "添加成功") {
+            Toast("注册成功");
+            this.$router.push("/login");
+          }
         }
       }
+    },
+    // 点击发送短信验证码
+    sendSms() {
+      console.log("短信验证码");
     },
   },
   created() {
@@ -72,6 +89,10 @@ export default {
     // console.log(this.$router.query);
     console.log(document.title);
     this.title = document.title;
+    const auth = localStorage.getItem("userInfo");
+    if (auth) {
+      this.$router.push("/profile");
+    }
   },
   // beforeRouteEnter(to, from, next) {
   //   console.log(to, from);
@@ -84,7 +105,7 @@ export default {
   // },
   // watch: {
   //   $route(to) {
-  //     if (to.path !== "/reg") {
+  //     if (to.path === "/reg") {
   //       // this.reg();
   //       console.log(this.$router.query);
   //     }

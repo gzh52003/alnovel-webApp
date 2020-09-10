@@ -19,7 +19,7 @@ export default new Vuex.Store({
      // 获取用户信息
      getUserInfo(state) {
       const uInfo = localStorage.getItem("userInfo");
-      console.log(uInfo);
+      // console.log(uInfo);
       state.auth = uInfo;
       // console.log(this.auth);
     },

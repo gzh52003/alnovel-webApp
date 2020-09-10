@@ -21,7 +21,12 @@
         <input v-if="showLogin" type="text" placeholder="请输入验证码" v-model="userCode" />
         <input v-else :type="Nosee===true?'password':'text'" placeholder="请输入密码" v-model="userPsd" />
         <!-- 获取验证码 -->
-        <button class="getCode" v-if="showLogin">获取验证码</button>
+        <button
+          class="getCode"
+          v-if="showLogin"
+          :style="phoneLength() === 11?'opacity:1':''"
+          @click="sendSms()"
+        >获取验证码</button>
         <!-- 显示和隐藏密码 -->
         <span class="eye" v-else @click="closeEye">
           <img src="profile/openEye.svg" alt="可见" v-if="!Nosee" />
@@ -39,7 +44,11 @@
         <a href="javascript:;" class="hightlight">《隐私服务协议》</a>
       </div>
       <div class="btnWrap">
-        <button class="btnLogin" @click="btnLogin" :style="checked===true? 'opacity: 1':''">登录</button>
+        <button
+          class="btnLogin"
+          @click="btnLogin"
+          :style="(checked===true && userPhone && (userPsd || userCode))? 'opacity: 1':''"
+        >登录</button>
       </div>
       <div class="thirdLoginArea">
         <van-divider :style="{ borderColor: '#a1a1b3' }" class="divider">使用以下账号可免注册</van-divider>
@@ -120,6 +129,20 @@ export default {
         }
       }
     },
+    // 显示发送短信验证码按钮
+    phoneLength() {
+      return this.userPhone.length;
+    },
+    // 点击发送短信验证码
+    sendSms() {
+      console.log("短信验证码");
+    },
+  },
+  created() {
+    const auth = localStorage.getItem("userInfo");
+    if (auth) {
+      this.$router.push("/profile");
+    }
   },
   mounted() {
     this.$store.commit("showTabbar", false);

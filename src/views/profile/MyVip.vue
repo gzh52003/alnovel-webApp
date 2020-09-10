@@ -79,6 +79,32 @@
                   </p>
                 </div>
               </li>
+              <li class="bookItem">
+                <div class="itemLeft">
+                  <img src="profile/recommend/20200905.jpg" alt />
+                </div>
+                <div class="itemRight">
+                  <h3>诸天帝尊</h3>
+                  <p>洛星：不是跟你们吹啊，自觉醒的那天起......管他什么妖孽天才，小爷皆是最强王者，没有之一</p>
+                  <p>
+                    <span class="auth">2翻了</span>
+                    <span class="classify">东方玄幻</span>
+                  </p>
+                </div>
+              </li>
+              <li class="bookItem">
+                <div class="itemLeft">
+                  <img src="profile/recommend/20200905.jpg" alt />
+                </div>
+                <div class="itemRight">
+                  <h3>诸天帝尊</h3>
+                  <p>洛星：不是跟你们吹啊，自觉醒的那天起......管他什么妖孽天才，小爷皆是最强王者，没有之一</p>
+                  <p>
+                    <span class="auth">2翻了</span>
+                    <span class="classify">东方玄幻</span>
+                  </p>
+                </div>
+              </li>
             </ul>
           </div>
         </div>
