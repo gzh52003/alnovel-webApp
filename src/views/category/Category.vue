@@ -138,7 +138,7 @@ export default {
     },
     //跳转到分类的详情页
     gotoDetails(id, name, booksType) {
-      // console.log("111", id, name, booksType);
+      // console.log("跳转到详情页的数据", id, name, booksType);
       this.$router.push({
         name: "CategoryDetail",
         params: {

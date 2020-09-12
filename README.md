@@ -16,6 +16,16 @@
   * 谭佩文 ：负责书城页面
 
 ### 项目页面截图
+<img src=""./public/jieping/书城.png>
+<img src=""./public/jieping/分类.png>
+<img src=""./public/jieping/分类下的都市小说类型.png>
+<img src=""./public/jieping/都市小说之小说简介.png>
+<img src=""./public/jieping/小说目录.png>
+<img src=""./public/jieping/注册.png>
+<img src=""./public/jieping/登录.bmp>
+<img src=""./public/jieping/登录2.bmp>
+<img src=""./public/jieping/登录3.bmp>
+
 
 ### 项目目录说明 
 ```js

@@ -65,9 +65,11 @@
             <p class="book_detail">{{ item.book_detail }}</p>
             <p class="auhor">
               {{ item.author }}
-              <van-tag size="medium" color="#f5f5f5" type="primary">{{
+              <van-tag size="medium" color="#f5f5f5" type="primary">
+                {{
                 item.tag
-              }}</van-tag>
+                }}
+              </van-tag>
             </p>
           </div>
         </li>
@@ -88,9 +90,11 @@
             <p class="book_detail">{{ item.book_detail }}</p>
             <p class="auhor">
               {{ item.author }}
-              <van-tag size="medium" color="#f5f5f5" type="primary">{{
+              <van-tag size="medium" color="#f5f5f5" type="primary">
+                {{
                 item.tag
-              }}</van-tag>
+                }}
+              </van-tag>
             </p>
           </div>
         </li>
@@ -194,9 +198,9 @@ export default {
     nanpinlist() {
       return this.$store.state.bookcity.nanpinlist;
     },
-    changxiaolist(){
-      return this.$store.state.bookcity.changxiaolist
-    }
+    changxiaolist() {
+      return this.$store.state.bookcity.changxiaolist;
+    },
   },
   methods: {
     goto(path) {
@@ -215,17 +219,16 @@ export default {
         this.shuwangwenlist = nanwanjie.data;
         // console.log(this.shuwangwenlist);
       } else if (name === "changxiao") {
-        console.log(name)
+        console.log(name);
         const { data: changxiao } = await this.$request.get("/bookscity/", {
           params: {
             leibie: "nanpin",
           },
         });
-        
+
         console.log(this.changxiaolist);
         // 因为changxiaolist的数据是共享仓库里面的 mutation下的changechangxiao
-        this.$store.commit('changechangxiao',changxiao.data)
-        
+        this.$store.commit("changechangxiao", changxiao.data);
       }
     },
 

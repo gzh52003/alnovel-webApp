@@ -85,14 +85,19 @@
     <!-- 相关推荐 -->
     <div class="about-recomemnt-title">
       <h4>相关推荐</h4>
-      <span>换一换</span>
+      <span @click="changeBook">换一换</span>
     </div>
     <div class="about-recomemnt-info">
-      <div class="about-recomemnt-item">
+      <div v-for="item in aboutList" :key="item.bookid" class="about-recomemnt-item">
+        <img :src="item.cover" alt />
+        <h5>{{ item.title }}</h5>
+        <div>{{ item.author }}</div>
+      </div>
+      <!-- <div class="about-recomemnt-item">
         <img src="../../../public/categoryImg/typeImg/male/2017091318311993.png" alt />
         <h5>豪门蜜爱，重生天价女王</h5>
         <div>我是作者</div>
-      </div>
+      </div>-->
     </div>
 
     <!-- 图书信息 -->
@@ -120,6 +125,8 @@
 
 <script>
 import Vue from "vue";
+import { Notify } from "vant";
+Vue.use(Notify);
 // 格式化 小说字数！
 Vue.filter("formateNevel", (val) => {
   let res;
@@ -146,10 +153,14 @@ export default {
   created() {
     this.getBooksInfo();
     this.getBooksCatelog();
+    this.getAboutList();
   },
   computed: {
     isShowTabbar() {
       return this.$store.state.isShowTabbar;
+    },
+    aboutList() {
+      return this.$store.state.bookCategory.aboutList;
     },
   },
   mounted() {
@@ -175,7 +186,7 @@ export default {
           },
         }
       );
-      console.log("我是data获取图书信息", bookInfo.data[0]);
+      // console.log("我是data获取图书信息", bookInfo.data[0]);
       this.bookInfo = bookInfo.data[0];
     },
     // 获取图书的目录
@@ -205,19 +216,24 @@ export default {
         },
       });
     },
-    //假如书架
+    //加入书架
     async joinShelf() {
-      console.log("我是加入书架", this.bookInfo);
-      const res = await this.$request.post("/shelf", {
-        bookId: this.bookInfo.bookid,
-        bookName: this.bookInfo.title,
-        anyUpTime: this.bookInfo.uptime,
-        updateType: 3,
-        updateChapterNum: "",
+      this.$store.dispatch("joinShelf", this.bookInfo).then((res) => {
+        Notify({ type: "success", message: res });
       });
-      console.log("我是res", res);
+    },
+    // 获取相关推荐的数据
+    async getAboutList() {
+      const { id: currenId } = this.$route.params;
+      this.$store.commit("getAboutList", { currenId });
+    },
+    //点击换一换
+    changeBook() {
+      const { id: currenId } = this.$route.params;
+      this.$store.commit("getAboutList", { currenId, num: 5 });
     },
   },
+
   components: {},
 };
 </script>
@@ -482,14 +498,11 @@ export default {
     margin-top: 8px;
     height: 56px;
     line-height: 56px;
-    background: yellow;
     h4 {
       font-size: 18px;
-      height: 20px;
     }
     span {
       font-size: 14px;
-      height: 20px;
       display: inline-block;
       vertical-align: middle;
       color: #23b383;
@@ -504,7 +517,6 @@ export default {
 
     .about-recomemnt-item {
       width: 32.6%;
-      background: yellow;
       img {
         width: 100%;
         height: 145px;

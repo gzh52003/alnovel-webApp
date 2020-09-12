@@ -13,13 +13,7 @@
       </div>
       <div class="cate-con">
         <div class="cate-con-item" v-show="isShowCurrent">
-          <van-list
-            class="card-box"
-            v-model="loading"
-            :finished="finished"
-            finished-text="没有更多了"
-            @load="onLoad"
-          >
+          <van-list class="card-box">
             <van-cell
               v-for="item in booksList"
               :key="item.title"
@@ -59,28 +53,12 @@ export default {
       size: 10,
       total: "",
       offset: 0,
-      booksList: [],
       loading: false,
       finished: false,
-      c_typeList: [
-        {
-          都市: "dushi",
-        },
-        {
-          玄幻: "xuanhuan",
-        },
-        {
-          仙侠: "xianxia",
-        },
-        {
-          灵异: "linyi",
-        },
-      ],
-      c_type: "",
     };
   },
   created() {
-    // this.getNewList();
+    this.getNewList();
   },
   mounted() {
     this.getNewList();
@@ -89,52 +67,39 @@ export default {
   destroyed() {
     this.$store.commit("showTabbar", true);
   },
+  computed: {
+    c_typeList() {
+      return this.$store.state.bookCategory.c_typeList;
+    },
+    // 拿到分类图书的数据
+    booksList() {
+      return this.$store.state.bookCategory.booksList;
+    },
+  },
   methods: {
-    //获取最新的列表
-    async getNewList() {
-      let c_type;
+    //获取分类的数据
+    getNewList() {
+      const booksList = "booksList";
       const { name: typeName } = this.$route.params;
-      this.c_typeList.filter((item) => {
-        for (let key in item) {
-          if (key === typeName) {
-            c_type = item[key];
-          }
-        }
+      this.$store.commit("getNewList", {
+        booksList,
+        typeName,
       });
-      // console.log("我是类似", c_type);
-      const { data } = await this.$request.get("/category/cate", {
-        params: {
-          page: this.page,
-          size: 10,
-          c_type,
-        },
-      });
-      // console.log("我是查询data11", data);
-      this.total = data.datalen;
-      this.booksList.push(...data.data);
     },
-    onLoad() {
-      this.page += 1;
-      this.offset = this.size * this.page;
-      this.getNewList();
-      // 加载状态结束
-      this.loading = false;
-      // 数据全部加载完成
-      if (this.booksList.length > 10) {
-        this.finished = true;
-      }
-    },
-
     cahngeTab() {
       this.isShowCurrent = !this.isShowCurrent;
     },
     //跳转到详情页！
     gotoNovelDetails(id) {
       console.log("我是跳转详情页");
+      const { name: typeName } = this.$route.params;
       this.$router.push({
         name: "NovelDetails",
         params: {
           id,
+        },
+        query: {
+          typeName,
         },
       });
     },
