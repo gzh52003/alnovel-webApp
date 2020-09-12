@@ -148,6 +148,14 @@ const routes = [{
     },
     component: () => import("../views/profile/Feedback.vue")
   },
+  {
+    path: '/answer',
+    name: 'Answer',
+    meta: {
+      title: "意见反馈",
+    },
+    component: () => import("../views/profile/Answer.vue")
+  },
 ]
 
 const router = new VueRouter({

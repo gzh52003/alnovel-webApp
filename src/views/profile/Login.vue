@@ -12,8 +12,9 @@
       <div class="inputWrap">
         <input
           type="text"
-          :placeholder="showLogin === true ? '请输入用户名':'请输入用户名/邮箱'"
+          :placeholder="showLogin === true ? '请输入手机号':'请输入用户名/邮箱'"
           v-model="userPhone"
+          @click="selectValue($event)"
         />
       </div>
       <div class="inputWrap">
@@ -24,9 +25,10 @@
         <button
           class="getCode"
           v-if="showLogin"
-          :style="phoneLength() === 11?'opacity:1':''"
-          @click="sendSms()"
-        >获取验证码</button>
+          :style="phoneLength() === 11? 'opacity:1':''"
+          @click="phoneLength() === 11? sendSms() : ''"
+          v-bind:disabled="dis"
+        >{{codeText}}</button>
         <!-- 显示和隐藏密码 -->
         <span class="eye" v-else @click="closeEye">
           <img src="profile/openEye.svg" alt="可见" v-if="!Nosee" />
@@ -62,6 +64,7 @@
 
 <script>
 import Vue from "vue";
+// import Clipboard from "clipboard";
 import { Checkbox, Divider, Toast } from "vant";
 Vue.use(Checkbox);
 Vue.use(Divider);
@@ -70,13 +73,22 @@ Vue.use(Toast);
 export default {
   data() {
     return {
-      // reg: true,
+      // 判断是否勾选
       checked: false,
+      // 登录方式切换
       showLogin: false,
+      // 查看密码
       Nosee: true,
+      // 用户的输入
       userPhone: "",
       userPsd: "",
       userCode: "",
+      codeText: "获取验证码",
+      // 定时器
+      timer: null,
+      second: 10,
+      // 是否禁用获取验证码
+      dis: false,
     };
   },
   methods: {
@@ -101,6 +113,11 @@ export default {
         // },
       });
     },
+    // 点击选中输入框所有
+    selectValue(e) {
+      console.log(e);
+      e.currentTarget.select();
+    },
     // 登录
     async btnLogin() {
       // console.log(this.userPhone,this.userPsd)
@@ -121,13 +138,13 @@ export default {
         // console.log(data);
         // console.log(data.msg);
         if (data.msg === "fail") {
-          Toast("手机号或密码错误");
+          Toast("账号或密码错误");
         } else {
           localStorage.setItem("userInfo", data.data.authorization);
 
           this.$router.push("/profile");
         }
-      }
+      } 
     },
     // 显示发送短信验证码按钮
     phoneLength() {
@@ -136,19 +153,54 @@ export default {
     // 点击发送短信验证码
     sendSms() {
       console.log("短信验证码");
+      this.dis = true;
+      this.timer = setInterval(() => {
+        // if (this.second < 0) this.second = "";
+        this.second -= 1;
+        console.log(this.second);
+        this.codeText = `重新获取(0${this.second})`;
+        if (this.second < 1) {
+          clearInterval(this.timer);
+          this.codeText = `获取验证码`;
+          this.second = 10;
+          this.dis = false;
+        }
+      }, 1000);
     },
   },
+  // computed: {
+  //   timeSecond() {
+  //     if (this.second < 10) {
+  //       return `0${this.second}`;
+  //     }
+  //     return this.second;
+  //   },
+  // },
+  // filters: {
+  //   format: function (data) {
+  //     console.log(data)
+  //     if (data) {
+  //       return this.codeText;
+  //     }
+  //   },
+  // },
   created() {
     const auth = localStorage.getItem("userInfo");
     if (auth) {
       this.$router.push("/profile");
     }
+    // 每次进入界面时，先清除之前的所有定时器
+    clearInterval(this.timer);
+    this.timer = null;
   },
   mounted() {
     this.$store.commit("showTabbar", false);
   },
   destroyed() {
     this.$store.commit("showTabbar", true);
+    // 每次离开当前界面时，清除定时器
+    clearInterval(this.timer);
+    this.timer = null;
   },
 };
 </script>

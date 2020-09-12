@@ -1,20 +1,21 @@
 <template>
-  <div id="login">
+  <div id="reg">
     <div class="titleWrap">
       <van-icon name="arrow-left" class="leftIcon" @click="goback"></van-icon>
       <p>{{title}}</p>
     </div>
-    <div class="formWrap">
+    <div class="formWrap" v-if="showPsd">
       <div class="inputWrap">
         <input type="text" placeholder="请输入手机号" v-model="userPhone" />
       </div>
       <div class="inputWrap">
-        <input placeholder="请输入验证码" v-model="userPsd" />
+        <input placeholder="请输入验证码" v-model="userCode" />
         <button
-          class="getCode"
-          :style="userPhone.length===11?'opacity: 1':''"
-          @click="sendSms()"
-        >获取验证码</button>
+          class="showPsd"
+          :style="phoneLength() === 11? 'opacity:1':''"
+          @click="phoneLength() === 11? sendSms() : ''"
+          v-bind:disabled="dis"
+        >{{codeText}}</button>
       </div>
       <div class="CheckBoxWrap">
         <van-checkbox v-model="checked" class="checkbox" icon-size="12"></van-checkbox>同意
@@ -24,9 +25,26 @@
       <div class="btnWrap">
         <button
           class="btnReg"
+          :style="(checked===true && userPhone && userCode)? 'opacity: 1;' :''"
+          @click="nextIptPsd()"
+        >下一步</button>
+      </div>
+    </div>
+    <div v-else>
+      <div class="inputWrap">
+        <input :type="Nosee===true?'password':'text'" placeholder="请输入密码" v-model="userPsd" />
+        <!-- 显示和隐藏密码 -->
+        <span class="eye" @click="closeEye">
+          <img src="profile/openEye.svg" alt="可见" v-if="!Nosee" />
+          <img src="profile/closeEye.svg" alt="不可见" v-else />
+        </span>
+      </div>
+      <div class="btnWrap">
+        <button
+          class="btnReg"
           :style="(checked===true && userPhone && userPsd)? 'opacity: 1;' :''"
           @click="btnReg()"
-        >下一步</button>
+        >完成</button>
       </div>
     </div>
   </div>
@@ -44,9 +62,19 @@ export default {
   data() {
     return {
       userPhone: "",
+      userCode: "",
       userPsd: "",
       checked: "",
       title: "",
+      codeText: "获取验证码",
+      // 定时器
+      timer: null,
+      second: 10,
+      // 是否禁用获取验证码
+      dis: false,
+      showPsd: true,
+      // 查看密码
+      Nosee: true,
     };
   },
   methods: {
@@ -54,10 +82,18 @@ export default {
     goback() {
       this.$router.replace("/login");
     },
+    // 显示输入密码
+    nextIptPsd() {
+      this.showPsd = false;
+    },
+    // 点击显示和隐藏密码
+    closeEye() {
+      this.Nosee = !this.Nosee;
+    },
     // 注册
     async btnReg() {
       if (this.title === "注册") {
-        console.log(1)
+        console.log(1);
         if (
           this.checked &&
           this.userPhone.trim() !== "" &&
@@ -77,40 +113,45 @@ export default {
             this.$router.push("/login");
           }
         }
+        return false;
       }
+
+      if (this.title === "找回密码") {
+        console.log(1);
+      }
+    },
+    // 显示发送短信验证码按钮
+    phoneLength() {
+      return this.userPhone.length;
     },
     // 点击发送短信验证码
     sendSms() {
       console.log("短信验证码");
+      this.dis = true;
+      this.timer = setInterval(() => {
+        // if (this.second < 0) this.second = "";
+        this.second -= 1;
+        console.log(this.second);
+        this.codeText = `重新获取(0${this.second})`;
+        if (this.second < 1) {
+          clearInterval(this.timer);
+          this.codeText = `获取验证码`;
+          this.second = 10;
+          this.dis = false;
+        }
+      }, 1000);
     },
   },
   created() {
     // const reg = this.$router.params.reg
     // console.log(this.$router.query);
-    console.log(document.title);
+    // console.log(document.title);
     this.title = document.title;
     const auth = localStorage.getItem("userInfo");
     if (auth) {
       this.$router.push("/profile");
     }
   },
-  // beforeRouteEnter(to, from, next) {
-  //   console.log(to, from);
-  //   if (to.meta.title !== from.meta.title) {
-  //     console.log(to.query.reg);
-  //     const reg = to.query.reg;
-  //     this.reg = reg;
-  //   }
-  //   next();
-  // },
-  // watch: {
-  //   $route(to) {
-  //     if (to.path === "/reg") {
-  //       // this.reg();
-  //       console.log(this.$router.query);
-  //     }
-  //   },
-  // },
   mounted() {
     this.$store.commit("showTabbar", false);
   },
@@ -121,7 +162,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#login {
+#reg {
   padding: 20px;
 }
 .titleWrap {
@@ -158,7 +199,7 @@ export default {
     padding: 12px 13px;
     border-radius: 4px;
   }
-  .getCode {
+  .showPsd {
     border: 0;
     outline: none;
     background: #23b383;

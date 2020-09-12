@@ -1,11 +1,8 @@
 <template>
   <div class="feedBack">
     <div class="homeSearch">
-      <a href="javascript:;" class="search">
-        <div>
-          <span>遇到问题先搜一搜</span>
-        </div>
-      </a>
+      <van-nav-bar left-text left-arrow @click-left="onClickLeft" />
+      <van-search v-model="value" placeholder="请输入搜索问题关键词" input-align="center"/>
     </div>
     <div class="banner">
       <img src="profile/banner.png" alt />
@@ -22,6 +19,7 @@
               class="listItem text_ellipsis"
               v-for="item in tag.questions"
               :key="item.quest"
+              @click="getAnswer(item.id,item.quest)"
             >{{item.quest}}</li>
             <!-- <li class="listItem">2</li>
             <li class="listItem">3</li>
@@ -45,63 +43,85 @@
 </template>
 
 <script>
+import Vue from "vue";
+import { NavBar, Search } from "vant";
+
+Vue.use(NavBar);
+Vue.use(Search);
+
 export default {
   data() {
     return {
+      value:'',
       tagList: [
         {
           imgurl: "profile/feedback/iconfire.png",
           title: "热点问题 >",
           questions: [
-            { quest: "小程序账号能在书城" },
-            { quest: "阅读获得的能量如何在" },
-            { quest: "蚂蚁森林阅读活动" },
-            { quest: "账号注销流程" },
+            { id: 1, quest: "小程序账号能在书城绑定" },
+            { id: 2, quest: "阅读获得的能量如何在支付宝查看" },
+            { id: 3, quest: "蚂蚁森林阅读活动,如何参加" },
+            { id: 4, quest: "账号注销流程" },
           ],
         },
         {
           imgurl: "profile/feedback/iconavatar.jpg",
           title: "账号密码 >",
           questions: [
-            { quest: "账号换绑" },
-            { quest: "账号注销" },
-            { quest: "登录方式" },
+            { id: 11, quest: "账号换绑" },
+            { id: 12, quest: "账号注销" },
+            { id: 13, quest: "登录方式" },
           ],
         },
         {
           imgurl: "profile/feedback/iconbook.jpg",
           title: "功能/阅读 >",
           questions: [
-            { quest: "调出设置" },
-            { quest: "调节字体大小" },
-            { quest: "怎么设置字体" },
-            { quest: "怎么加书架" },
-            { quest: "删除书架" },
-            { quest: "书架书籍" },
+            { id: 120, quest: "调出设置" },
+            { id: 121, quest: "调节字体大小" },
+            { id: 122, quest: "怎么设置字体" },
+            { id: 123, quest: "怎么加书架" },
+            { id: 124, quest: "删除书架" },
+            { id: 125, quest: "书架书籍" },
           ],
         },
         {
           imgurl: "profile/feedback/iconshopping.png",
           title: "充值/消费 >",
           questions: [
-            { quest: "充值成功未到账" },
-            { quest: "如何充值" },
-            { quest: "书豆的作用" },
-            { quest: "充值比例" },
+            { id: 51, quest: "充值成功未到账" },
+            { id: 52, quest: "如何充值" },
+            { id: 53, quest: "书豆的作用" },
+            { id: 54, quest: "充值比例" },
           ],
         },
         {
           imgurl: "profile/feedback/iconvip.jpg",
           title: "会员相关 >",
           questions: [
-            { quest: "普通包月特权" },
-            { quest: "超级会员特权" },
-            { quest: "包月时长" },
-            { quest: "会员看书要收费" },
+            { id: 1111, quest: "普通包月特权" },
+            { id: 1112, quest: "超级会员特权" },
+            { id: 1113, quest: "包月时长" },
+            { id: 1114, quest: "会员看书要收费吗？" },
           ],
         },
       ],
     };
+  },
+  methods: {
+    getAnswer(id, quest) {
+      this.$router.push({
+        name: "Answer",
+        query: {
+          id,
+          quest,
+        },
+      });
+      console.log(this.tagList);
+    },
+    onClickLeft() {
+      this.$router.push("/profile");
+    },
   },
   mounted() {
     this.$store.commit("showTabbar", false);
@@ -125,20 +145,42 @@ export default {
 .homeSearch {
   height: 50px;
   display: flex;
-  .search {
-    height: 30px;
-    width: 345px;
-    border-radius: 15px;
-    margin: auto;
-    background-color: rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    span {
-      color: #999;
-      font-size: 14px;
-    }
+  position: relative;
+  // .search {
+  //   height: 30px;
+  //   width: 345px;
+  //   border-radius: 15px;
+  //   margin: auto;
+  //   background-color: rgba(0, 0, 0, 0.1);
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: center;
+  span {
+    color: #999;
+    font-size: 14px;
   }
+  // }
+}
+::v-deep .van-search {
+  position: absolute;
+  right: 0;
+  padding: 0;
+  top: 8px;
+  width: 300px;
+  margin-right: 30px;
+}
+// ::v-deep .van-field__left-icon{
+//   position: absolute;
+//   left: 50px;
+// }
+::v-deep .van-nav-bar__left {
+  width: 100px;
+}
+::v-deep .van-icon {
+  color: var(--color-text);
+}
+::v-deep .van-nav-bar__text {
+  color: var(--color-text);
 }
 .banner {
   width: 100%;
@@ -168,6 +210,7 @@ export default {
     img {
       width: 30px;
       height: 30px;
+      margin-bottom: 5px;
     }
     span {
       font-size: 14px;

@@ -51,10 +51,11 @@
 
 <script>
 import Vue from "vue";
-import { List, Icon, Dialog } from "vant";
+import { List, Icon, Dialog, Toast } from "vant";
 Vue.use(List);
 Vue.use(Icon);
 Vue.use(Dialog);
+Vue.use(Toast);
 
 export default {
   name: "Profile",
@@ -139,25 +140,34 @@ export default {
   created() {
     // this.getUserInfo();
     this.$store.commit("getUserInfo");
+    // if (this.auth()) {
+    //   Toast("登录成功");
+    // }
   },
 
-  // beforeRouterEnter: (to, from, next) => {
-  //   if (to.path === "/profile") {
-  //     const uInfo = localStorage.getItem("userInfo");
-  //     console.log(uInfo);
-  //     this.auth = uInfo;
-  //     console.log(this.auth)
-  //   }
-  //   next();
-  // },
-  watch: {
-    $route(to, from) {
-      console.log(to, from);
-      if (from.path === "/login") {
-        this.$store.commit("getUserInfo");
+  // 判断登录是否成功显示成功的提示
+  beforeRouteEnter(to, from, next){
+    if (from.path === "/login") {
+      const uInfo = localStorage.getItem("userInfo");
+      if (uInfo) {
+        Toast("登录成功");
       }
-    },
+    }
+    next();
   },
+
+  // watch: {
+  //   $route(to, from) {
+  //     console.log(to, from);
+  //     if (from.path === "/login") {
+  //       this.$store.commit("getUserInfo");
+  //       const uInfo = localStorage.getItem("userInfo");
+  //       if (uInfo) {
+  //         Toast("登录成功");
+  //       }
+  //     }
+  //   },
+  // },
 };
 </script>
 <style  lang="scss" scoped>

@@ -9,12 +9,16 @@
     <div class="amountBox">
       <ul class="amountList">
         <li class="amountItem" v-for="item in beans" :key="item.price">
-          <div>
+          <div v-if="!item.tickes">
             <span class="beans">{{item.VirtualPrice}}</span>
+          </div>
+          <div v-else>
+            <span class="beans">{{item.VirtualPrice}}</span>
+            <span class="trickes"><em>送</em>{{item.qty}}%</span>
           </div>
           <div>
             <span class="price">￥{{item.RealPrice}}</span>
-            <button class="primaryButton">充值</button>
+            <button class="primaryButton" @click="payMoney()">充值</button>
           </div>
         </li>
       </ul>
@@ -37,6 +41,10 @@
 </template>
 
 <script>
+import Vue from "vue";
+import { Toast } from "vant";
+Vue.use(Toast);
+
 export default {
   data() {
     return {
@@ -69,14 +77,36 @@ export default {
           VirtualPrice: "500书豆",
           RealPrice: "50",
           tickes: true,
+          qty:2
         },
         {
           VirtualPrice: "1000书豆",
           RealPrice: "100",
           tickes: true,
+          qty:5
         },
       ],
     };
+  },
+  methods: {
+    auth() {
+      return this.$store.state.auth;
+    },
+    payMoney() {
+      if (this.$store.state.auth) {
+        console.log(1);
+      } else {
+        Toast("请先登录");
+      }
+    },
+  },
+  // computed: {
+  //   auth() {
+  //     return this.$store.state.auth;
+  //   },
+  // },
+  created() {
+    this.$store.commit("getUserInfo");
   },
   mounted() {
     this.$store.commit("showTabbar", false);
@@ -92,7 +122,6 @@ export default {
   padding: 0 16px;
 }
 .titleBar {
-  height: 20px;
   padding: 24px 0 16px 0;
   margin-top: 8px;
   display: flex;
@@ -118,6 +147,20 @@ export default {
       .beans,
       .price {
         color: #000;
+      }
+      .trickes{
+        margin-left: 10px;
+        font-size: 14px;
+        em{
+          font-size: 12px;
+          color: #fff;  
+          background: #cca985;
+          border-radius: 3px;
+          padding: 2px;
+          margin-right: 4px;
+        }
+        color: #cca985;
+      
       }
       .primaryButton {
         height: 27px;

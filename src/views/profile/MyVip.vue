@@ -20,7 +20,10 @@
         <div class="cardBox">
           <div class="noneVip">
             <div class="tip">尚未开通会员</div>
-            <div class="openButton">立即开通></div>
+            <div class="openButton">
+              <span>立即开通</span>
+              <van-icon name="arrow" />
+            </div>
           </div>
         </div>
       </div>
@@ -33,27 +36,27 @@
         <div class="privilege">
           <ul class="list">
             <li class="bookstore">
-              <span>
+              <div>
                 <img src="profile/desc.svg" alt />
-              </span>
+              </div>
               <p>包月书库</p>
             </li>
             <li class="discount">
-              <span>
+              <div>
                 <img src="profile/discount.svg" alt />
-              </span>
+              </div>
               <p>购买折扣</p>
             </li>
             <li class="update">
-              <span>
+              <div>
                 <img src="profile/vip.svg" alt />
-              </span>
+              </div>
               <p>尊贵身份</p>
             </li>
             <li class="superPrivilege">
-              <span>
+              <div>
                 <img src="profile/privilege.svg" alt />
-              </span>
+              </div>
               <p>超级特权</p>
             </li>
           </ul>
@@ -197,21 +200,29 @@ export default {
     justify-content: center;
     border-radius: 10px 10px 0 0;
     .tip {
-      width: 215px;
-      font-size: 20px;
+      width: 235px;
+      font-size: 18px;
       color: #fff;
       font-weight: 600;
       line-height: 52px;
     }
     .openButton {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: 80px;
       font-size: 14px;
       color: #fff;
-      line-height: 52px;
-      text-align: right;
+      // line-height: 52px;
+      // text-align: right;
     }
   }
 }
+
+::v-deep .van-icon {
+  font-size: 16px;
+}
+
 .box {
   padding: 0 16px;
   .titleBar {
@@ -244,17 +255,17 @@ export default {
         flex-direction: column;
         align-items: center;
         padding: 12px 0;
-        span {
+        div {
           width: 48px;
           height: 48px;
           border-radius: 50%;
-          background: #ccc;
+          background: #f0f0f0;
           opacity: 0.6;
           margin-bottom: 9px;
           display: flex;
           img {
-            width: 32px;
-            height: 32px;
+            width: 30px;
+            height: 30px;
             margin: auto;
             opacity: 0.3;
           }

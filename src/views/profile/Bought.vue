@@ -27,7 +27,7 @@ export default {
     },
     noIDshow() {
       if (!this.auth()) {
-        Toast({ message: "身份验证失败", className: "tips" });
+        Toast.fail({ message: "身份验证失败", className: "tips" });
       }
     },
   },
