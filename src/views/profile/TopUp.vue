@@ -14,7 +14,10 @@
           </div>
           <div v-else>
             <span class="beans">{{item.VirtualPrice}}</span>
-            <span class="trickes"><em>送</em>{{item.qty}}%</span>
+            <span class="trickes">
+              <em>送</em>
+              {{item.qty}}%
+            </span>
           </div>
           <div>
             <span class="price">￥{{item.RealPrice}}</span>
@@ -42,8 +45,11 @@
 
 <script>
 import Vue from "vue";
-import { Toast } from "vant";
+import { Dialog, Toast, PasswordInput, NumberKeyboard } from "vant";
 Vue.use(Toast);
+Vue.use(Dialog);
+Vue.use(PasswordInput);
+Vue.use(NumberKeyboard);
 
 export default {
   data() {
@@ -77,13 +83,13 @@ export default {
           VirtualPrice: "500书豆",
           RealPrice: "50",
           tickes: true,
-          qty:2
+          qty: 2,
         },
         {
           VirtualPrice: "1000书豆",
           RealPrice: "100",
           tickes: true,
-          qty:5
+          qty: 5,
         },
       ],
     };
@@ -95,6 +101,16 @@ export default {
     payMoney() {
       if (this.$store.state.auth) {
         console.log(1);
+        Dialog.confirm({
+          // title: "标题",
+          message: "确定要付款吗",
+        })
+          .then(() => {
+            console.log(2);
+          })
+          .catch(() => {
+            // on cancel
+          });
       } else {
         Toast("请先登录");
       }
@@ -148,19 +164,18 @@ export default {
       .price {
         color: #000;
       }
-      .trickes{
+      .trickes {
         margin-left: 10px;
         font-size: 14px;
-        em{
+        em {
           font-size: 12px;
-          color: #fff;  
+          color: #fff;
           background: #cca985;
           border-radius: 3px;
           padding: 2px;
           margin-right: 4px;
         }
         color: #cca985;
-      
       }
       .primaryButton {
         height: 27px;

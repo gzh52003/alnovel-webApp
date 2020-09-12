@@ -115,7 +115,7 @@ export default {
     },
     // 点击选中输入框所有
     selectValue(e) {
-      console.log(e);
+      // console.log(e);
       e.currentTarget.select();
     },
     // 登录
@@ -135,12 +135,13 @@ export default {
           username: username,
           password: password,
         });
-        // console.log(data);
+        console.log(data);
         // console.log(data.msg);
         if (data.msg === "fail") {
           Toast("账号或密码错误");
         } else {
-          localStorage.setItem("userInfo", data.data.authorization);
+          // localStorage.setItem("userInfo", data.data.authorization);
+          localStorage.setItem("userInfo", JSON.stringify(data.data));
 
           this.$router.push("/profile");
         }

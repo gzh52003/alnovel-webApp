@@ -10,7 +10,7 @@
             />
           </div>
           <div class="user">
-            <p class="authName">{{!auth()===true?'西伯利亚二哈':'书友1841147070'}}</p>
+            <p class="authName">{{!auth()===true?'西伯利亚二哈':` ${$store.state.username} 您好！`}}</p>
             <p class="desc">
               <van-icon name="vip-card-o" size="20px" color="#cca985"></van-icon>开通会员，海量小说免费读
             </p>
@@ -166,7 +166,9 @@ export default {
     flex: 1;
     margin-left: 10px;
     .authName {
-      color: #000;
+      color: rgb(143, 77, 77);
+      font-size: 16px;
+      font-weight: 600;
       margin-top: 7px;
     }
     .desc {

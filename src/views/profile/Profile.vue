@@ -16,7 +16,7 @@
         <span class="reg" @click="reg()">注册</span>
       </div>
       <div class="userInfo" v-else>
-        <h2 class="username">书友1841147070</h2>
+        <h2 class="username">欢迎书友, <span>{{$store.state.username}}</span></h2>
         <div class="userbonus">
           书豆
           <div style="color:#23b383">
@@ -62,6 +62,7 @@ export default {
   data() {
     return {
       // auth: null,
+      username:'',
       iconColor: "#999",
       list: [
         {
@@ -140,6 +141,7 @@ export default {
   created() {
     // this.getUserInfo();
     this.$store.commit("getUserInfo");
+    this.username
     // if (this.auth()) {
     //   Toast("登录成功");
     // }
@@ -211,6 +213,9 @@ export default {
     font-size: 18px;
     color: #000;
     font-weight: 600;
+    span{
+      color: rgb(143, 77, 77);
+    }
   }
   .userbonus {
     display: flex;
@@ -275,6 +280,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 </style>

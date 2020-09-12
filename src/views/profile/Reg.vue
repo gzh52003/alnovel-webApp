@@ -26,7 +26,7 @@
         <button
           class="btnReg"
           :style="(checked===true && userPhone && userCode)? 'opacity: 1;' :''"
-          @click="nextIptPsd()"
+          @click="(checked===true && userPhone && (userPsd || userCode))? nextIptPsd() : tipsInfo()"
         >下一步</button>
       </div>
     </div>
@@ -82,9 +82,22 @@ export default {
     goback() {
       this.$router.replace("/login");
     },
-    // 显示输入密码
-    nextIptPsd() {
-      this.showPsd = false;
+    // 显示输入密码组件
+    async nextIptPsd() {
+      if (this.title !== "找回密码") {
+        const { data } = await this.$request.get(`muser/${this.userPhone}`, {
+          username: this.userPhone,
+        });
+        console.log(data);
+        if (data.msg === "用户名已注册") {
+          Toast("用户名已注册");
+          return false;
+        } else {
+          this.showPsd = false;
+        }
+      } else {
+        this.showPsd = false;
+      }
     },
     // 点击显示和隐藏密码
     closeEye() {
@@ -117,7 +130,17 @@ export default {
       }
 
       if (this.title === "找回密码") {
-        console.log(1);
+        console.log(this.userPhone);
+        const { data } = await this.$request.put(`muser/${this.userPhone}`, {
+          username: this.userPhone,
+          password: this.userPsd,
+        });
+        console.log(data);
+        // 修改成功返回登录
+        if (data.msg === "修改成功") {
+          Toast("修改成功");
+          this.$router.push("/login");
+        }
       }
     },
     // 显示发送短信验证码按钮
