@@ -11,6 +11,7 @@
   "dependencies": {
     "axios": "^0.20.0",
     "core-js": "^3.6.5",
+    "jquery": "^3.5.1",
     "vant": "^2.10.4",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
@@ -28,6 +29,7 @@
     "eslint-plugin-vue": "^6.2.2",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
+    "vue-jsonp": "^0.1.8",
     "vue-template-compiler": "^2.6.11"
   },
   "description": "+ 官网: https://t.shuqi.com\r + 上线网址\r     - 后台管理系统：\r     - webApp：",
