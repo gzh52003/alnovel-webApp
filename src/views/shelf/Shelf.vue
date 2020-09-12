@@ -6,9 +6,9 @@
       <input @click="gotoSearch" class="search" type="text" placeholder="请输入书名或者作者名" />
     </div>
     <div class="shelf_box">
-      <div v-for="item in shelfList" :key="item.bookId" class="card-item">
-        <img src="../../../public/categoryImg/typeImg/female/dushi/1105497944585.jpg" alt />
-        <h3>{{ item.bookName }}</h3>
+      <div v-for="item in  ShelfList" :key="item.bookId" class="card-item">
+        <img :src="item.cover" alt />
+        <h3 class="book-title">{{ item.title }}</h3>
       </div>
     </div>
   </div>
@@ -25,11 +25,15 @@ export default {
   created() {
     this.getShelfList();
   },
+  computed: {
+    //使用计算属性拿到 模块化后的数据集合！
+    ShelfList() {
+      return this.$store.state.bookCategory.shelfList;
+    },
+  },
   methods: {
     async getShelfList() {
-      const { data } = await this.$request.get("/shelf");
-      console.log("我是res", data.data);
-      this.shelfList = data.data;
+      this.$store.commit("getShelfList");
     },
     gotoSearch() {
       this.$router.push({
@@ -87,6 +91,10 @@ export default {
       h3 {
         font-size: 14px;
         line-height: 18px;
+        width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
   }

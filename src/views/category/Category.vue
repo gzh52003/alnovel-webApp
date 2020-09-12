@@ -40,6 +40,44 @@ export default {
   data() {
     return {
       isShowCurrent: true,
+      tabs: [
+        [
+          {
+            id: 1,
+            name: "都市",
+            booksType: "都市小说",
+            title: "生活/异能",
+            path: "categoryDetail",
+            imgUrl: "categoryImg/typeImg/male/homeImg/2017091318311993.png",
+          },
+          {
+            id: 2,
+            name: "玄幻",
+            booksType: "玄幻小说",
+            title: "东方玄幻",
+            path: "categoryDetail/1/玄幻",
+            imgUrl: "categoryImg/typeImg/male/homeImg/2017091318312724.png",
+          },
+        ],
+        [
+          {
+            id: 3,
+            name: "仙侠",
+            booksType: "仙侠小说",
+            title: "现代修真",
+            path: "categoryDetail",
+            imgUrl: "categoryImg/typeImg/male/homeImg/2017091318313555.png",
+          },
+          {
+            id: 4,
+            name: "灵异",
+            booksType: "灵异推理",
+            title: "灵异鬼怪",
+            path: "categoryDetail",
+            imgUrl: "categoryImg/typeImg/male/homeImg/2017091318314338.png",
+          },
+        ],
+      ],
       cateBooksMale: [
         {
           id: 1,
@@ -138,7 +176,7 @@ export default {
     },
     //跳转到分类的详情页
     gotoDetails(id, name, booksType) {
-      // console.log("111", id, name, booksType);
+      // console.log("跳转到详情页的数据", id, name, booksType);
       this.$router.push({
         name: "CategoryDetail",
         params: {
