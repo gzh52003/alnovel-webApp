@@ -57,16 +57,17 @@
             <p class="book_detail">{{ item.book_detail }}</p>
             <p class="auhor">
               {{ item.author }}
-              <van-tag size="mini" type="primary" plain text-color="#a1a1b3">{{
+              <van-tag size="mini" type="primary" plain text-color="#a1a1b3">
+                {{
                 item.tag
-              }}</van-tag>
+                }}
+              </van-tag>
               <van-tag
                 size="mini"
                 plain
                 text-color="#23b383"
                 style="margin-right:5px;"
-                >{{ item.tag0 }}</van-tag
-              >
+              >{{ item.tag0 }}</van-tag>
             </p>
           </div>
         </li>
@@ -95,13 +96,7 @@
               <p class="book_detail">{{ item.book_detail }}</p>
               <p class="auhor">
                 {{ item.author }}
-                <van-tag
-                  size="mini"
-                  type="primary"
-                  plain
-                  text-color="#a1a1b3"
-                  >{{ item.tag }}</van-tag
-                >
+                <van-tag size="mini" type="primary" plain text-color="#a1a1b3">{{ item.tag }}</van-tag>
               </p>
             </div>
           </li>

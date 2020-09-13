@@ -7,10 +7,7 @@ const bookcity = {
         changxiaolist: [],
         nvwanjielist: [],
         xihuanlist: [],
-
-        douluolist: [
-
-        ]
+        douluolist: []
     },
     mutations: {
         insertnanpinlist(state, data) {
@@ -33,6 +30,7 @@ const bookcity = {
                 data: nanpin
             } = await request.get("/bookscity");
 
+
             const {
                 data: changxiaolist
             } = await request.get("/bookscity", {
@@ -40,6 +38,7 @@ const bookcity = {
                     leibie: "changxiao"
                 }
             });
+
 
             const {
                 data: nvwanjielist
@@ -71,11 +70,11 @@ const bookcity = {
                 // nvwanjielist: nvwanjielist.data,
                 // xihuanlist: xihuanlist.data
 
-                nanpinlist: nanpin.data,
-                changxiaolist: changxiaolist.data,
-                nvwanjielist: nvwanjielist.data,
-                xihuanlist: xihuanlist.data,
-                douluolist: douluolist.data
+                nanpinlist: nanpin.data.result,
+                changxiaolist: changxiaolist.data.result,
+                nvwanjielist: nvwanjielist.data.result,
+                xihuanlist: xihuanlist.data.result,
+                douluolist: douluolist.data.result
             })
         }
     }
