@@ -78,33 +78,33 @@
                   <p>洛星：不是跟你们吹啊，自觉醒的那天起......管他什么妖孽天才，小爷皆是最强王者，没有之一</p>
                   <p>
                     <span class="auth">2翻了</span>
-                    <span class="classify">东方玄幻</span>
+                    <span class="classify">玄幻</span>
                   </p>
                 </div>
               </li>
               <li class="bookItem">
                 <div class="itemLeft">
-                  <img src="profile/recommend/20200905.jpg" alt />
+                  <img src="categoryImg/typeImg/female/dushi/1105497944585.jpg" alt />
                 </div>
                 <div class="itemRight">
-                  <h3>诸天帝尊</h3>
-                  <p>洛星：不是跟你们吹啊，自觉醒的那天起......管他什么妖孽天才，小爷皆是最强王者，没有之一</p>
+                  <h3>至尊妖神</h3>
+                  <p>一个夏日的雨夜，本以为是一段奇缘，不曾想却惹上了一身麻烦，更可怕的是，竟然落入了一个精心打造的圈套，让他陷入了前所未有的危机之中......没根基，没靠山，没人脉，没资源，一个农村走出来的打工者，一步步走向人生的巅峰</p>
                   <p>
-                    <span class="auth">2翻了</span>
-                    <span class="classify">东方玄幻</span>
+                    <span class="auth">98翻了</span>
+                    <span class="classify">玄幻</span>
                   </p>
                 </div>
               </li>
               <li class="bookItem">
                 <div class="itemLeft">
-                  <img src="profile/recommend/20200905.jpg" alt />
+                  <img src="categoryImg/typeImg/female/dushi/1170488003989.jpg" alt />
                 </div>
                 <div class="itemRight">
-                  <h3>诸天帝尊</h3>
-                  <p>洛星：不是跟你们吹啊，自觉醒的那天起......管他什么妖孽天才，小爷皆是最强王者，没有之一</p>
+                  <h3>最强倒插门</h3>
+                  <p>三年前，孤儿叶伟为保女友肚中孩子顶罪入狱，在狱中偶遇神秘老人拜师学艺。三年后，叶伟回归继承神秘老人不可想象的巨大财富，就连首富九爷都对他俯首称臣。掌控万亿财富的他，暗暗发誓：从此，欲夺我妻者亡，欲伤我子者死。</p>
                   <p>
-                    <span class="auth">2翻了</span>
-                    <span class="classify">东方玄幻</span>
+                    <span class="auth">666翻了</span>
+                    <span class="classify">都市</span>
                   </p>
                 </div>
               </li>
