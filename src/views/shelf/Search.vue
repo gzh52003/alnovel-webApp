@@ -20,7 +20,7 @@
       </ul>
       <div class="search-histroy" v-show="showSearch_history">
         <div>搜索历史</div>
-        <button>清空</button>
+        <button @click="clear">清空</button>
       </div>
       <ul class="search-histroy-box">
         <li v-for="item in search_history" :key="item">{{item}}</li>
@@ -126,6 +126,11 @@ export default {
         this.search_enter = [];
         this.showSearch_one = false;
       }
+    },
+    //清空历史
+    clear() {
+      this.search_history = [];
+      this.showSearch_history = false;
     },
   },
   components: {},
