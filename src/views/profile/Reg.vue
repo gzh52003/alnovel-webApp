@@ -10,12 +10,7 @@
       </div>
       <div class="inputWrap">
         <input placeholder="请输入验证码" v-model="userCode" />
-        <button
-          class="showPsd"
-          :style="phoneLength() === 11? 'opacity:1':''"
-          @click="phoneLength() === 11? sendSms() : ''"
-          v-bind:disabled="dis"
-        >{{codeText}}</button>
+        <div v-html="vcodeSvg" @click="vcode()" class="vcode showPsd"></div>
       </div>
       <div class="CheckBoxWrap">
         <van-checkbox v-model="checked" class="checkbox" icon-size="12"></van-checkbox>同意
@@ -26,7 +21,7 @@
         <button
           class="btnReg"
           :style="(checked===true && userPhone && userCode)? 'opacity: 1;' :''"
-          @click="(checked===true && userPhone && (userPsd || userCode))? nextIptPsd() : tipsInfo()"
+          @click="(checked===true && userPhone && (userPsd || userCode))? nextIptPsd() : null"
         >下一步</button>
       </div>
     </div>
@@ -75,6 +70,8 @@ export default {
       showPsd: true,
       // 查看密码
       Nosee: true,
+      // 图形
+      vcodeSvg: "",
     };
   },
   methods: {
@@ -84,19 +81,54 @@ export default {
     },
     // 显示输入密码组件
     async nextIptPsd() {
-      if (this.title !== "找回密码") {
-        const { data } = await this.$request.get(`muser/${this.userPhone}`, {
-          username: this.userPhone,
+      if (this.title === "注册") {
+        const reg = /^(?:(?:\+|00)86)?1[3-9]\d{9}$/;
+        const uPhone = this.userPhone;
+        if (!reg.test(uPhone)) {
+          Toast("手机号格式错误");
+          return false;
+        }
+        const { data } = await this.$request.get("muser/find", {
+          params: {
+            username: this.userPhone,
+            vcode: this.userCode,
+          },
         });
         console.log(data);
-        if (data.msg === "用户名已注册") {
+        if (data.code === 10) {
+          Toast("验证码错误");
+          return false;
+        }
+        if (data.msg === 1) {
           Toast("用户名已注册");
           return false;
         } else {
           this.showPsd = false;
         }
-      } else {
-        this.showPsd = false;
+      } else if (this.title === "找回密码") {
+        const reg = /^(?:(?:\+|00)86)?1[3-9]\d{9}$/;
+        const uPhone = this.userPhone;
+        if (!reg.test(uPhone)) {
+          Toast("手机号格式错误");
+          return false;
+        }
+        const { data } = await this.$request.get("muser/find", {
+          params: {
+            username: this.userPhone,
+            vcode: this.userCode,
+          },
+        });
+        console.log("找回密码", data);
+        if (data.code === 10) {
+          Toast("验证码错误");
+          return false;
+        }
+        if (data.msg === 0) {
+          Toast("用户名不存在");
+          return false;
+        } else {
+          this.showPsd = false;
+        }
       }
     },
     // 点击显示和隐藏密码
@@ -105,22 +137,20 @@ export default {
     },
     // 注册
     async btnReg() {
+      // 根据title判断是否是 注册功能 还是找回 密码功能
       if (this.title === "注册") {
-        console.log(1);
+        // console.log(1);
         if (
           this.checked &&
           this.userPhone.trim() !== "" &&
           this.userPsd !== ""
         ) {
-          // if (this.userPhone.trim() === "" && this.userPsd === "") {
-          //   Toast("请输入手机号和验证码");
-          //   return false;
-          // }
           const { data } = await this.$request.post("muser", {
             username: this.userPhone,
             password: this.userPsd,
+            vcode: this.userCode,
           });
-          console.log(data);
+          // console.log(data);
           if (data.msg === "添加成功") {
             Toast("注册成功");
             this.$router.push("/login");
@@ -143,18 +173,18 @@ export default {
         }
       }
     },
-    // 显示发送短信验证码按钮
-    phoneLength() {
-      return this.userPhone.length;
-    },
+    // // 显示发送短信验证码按钮
+    // phoneLength() {
+    //   return this.userPhone.length;
+    // },
     // 点击发送短信验证码
     sendSms() {
-      console.log("短信验证码");
+      // console.log("短信验证码");
       this.dis = true;
       this.timer = setInterval(() => {
         // if (this.second < 0) this.second = "";
         this.second -= 1;
-        console.log(this.second);
+        // console.log(this.second);
         this.codeText = `重新获取(0${this.second})`;
         if (this.second < 1) {
           clearInterval(this.timer);
@@ -164,16 +194,28 @@ export default {
         }
       }, 1000);
     },
+    // tipsInfo() {
+    //   console.log(1);
+    // },
+    //发送图形验证码
+    // 点击更新验证码
+    async vcode() {
+      const { data } = await this.$request.get("/vcode");
+      // console.log(data);
+      this.vcodeSvg = data.data;
+    },
   },
   created() {
     // const reg = this.$router.params.reg
     // console.log(this.$router.query);
-    // console.log(document.title);
+    console.log(document.title);
     this.title = document.title;
     const auth = localStorage.getItem("userInfo");
     if (auth) {
       this.$router.push("/profile");
     }
+    // 调用图形验证码
+    this.vcode();
   },
   mounted() {
     this.$store.commit("showTabbar", false);
@@ -222,19 +264,34 @@ export default {
     padding: 12px 13px;
     border-radius: 4px;
   }
+  // button按钮
+  // .showPsd {
+  //   border: 0;
+  //   outline: none;
+  //   background: #23b383;
+  //   height: 33px;
+  //   opacity: 0.3;
+  //   position: absolute;
+  //   right: 5px;
+  //   bottom: 5px;
+  //   font-size: 12px;
+  //   color: #fff;
+  //   border-radius: 4px;
+  //   padding: 0 10px;
+  // }
+  // 图形验证码
   .showPsd {
-    border: 0;
-    outline: none;
     background: #23b383;
-    height: 33px;
-    opacity: 0.3;
+    // width: 100px;
+    transform: scale(0.7);
+    height: 54px;
+    opacity: 0.8;
     position: absolute;
-    right: 5px;
-    bottom: 5px;
+    right: -24px;
+    bottom: -5px;
     font-size: 12px;
     color: #fff;
     border-radius: 4px;
-    padding: 0 10px;
   }
   .eye {
     width: 20px;

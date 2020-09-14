@@ -16,11 +16,14 @@
         <span class="reg" @click="reg()">注册</span>
       </div>
       <div class="userInfo" v-else>
-        <h2 class="username">欢迎书友, <span>{{$store.state.username}}</span></h2>
+        <h2 class="username">
+          欢迎书友,
+          <span>{{$store.state.username}}</span>
+        </h2>
         <div class="userbonus">
           书豆
           <div style="color:#23b383">
-            <em>0</em>
+            <em>{{$store.state.usernameBeans}}</em>
           </div>
           <div class="dot"></div>豆劵
           <div style="color:#23b383">
@@ -62,8 +65,9 @@ export default {
   data() {
     return {
       // auth: null,
-      username:'',
+      username: "",
       iconColor: "#999",
+      userbeans: false,
       list: [
         {
           title: "我的会员",
@@ -141,14 +145,14 @@ export default {
   created() {
     // this.getUserInfo();
     this.$store.commit("getUserInfo");
-    this.username
+    this.username;
     // if (this.auth()) {
     //   Toast("登录成功");
     // }
   },
 
   // 判断登录是否成功显示成功的提示
-  beforeRouteEnter(to, from, next){
+  beforeRouteEnter(to, from, next) {
     if (from.path === "/login") {
       const uInfo = localStorage.getItem("userInfo");
       if (uInfo) {
@@ -213,7 +217,7 @@ export default {
     font-size: 18px;
     color: #000;
     font-weight: 600;
-    span{
+    span {
       color: rgb(143, 77, 77);
     }
   }

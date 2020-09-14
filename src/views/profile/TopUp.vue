@@ -10,10 +10,10 @@
       <ul class="amountList">
         <li class="amountItem" v-for="item in beans" :key="item.price">
           <div v-if="!item.tickes">
-            <span class="beans">{{item.VirtualPrice}}</span>
+            <span class="beans">{{item.VirtualPrice}}书豆</span>
           </div>
           <div v-else>
-            <span class="beans">{{item.VirtualPrice}}</span>
+            <span class="beans">{{item.VirtualPrice}}书豆</span>
             <span class="trickes">
               <em>送</em>
               {{item.qty}}%
@@ -21,7 +21,7 @@
           </div>
           <div>
             <span class="price">￥{{item.RealPrice}}</span>
-            <button class="primaryButton" @click="payMoney()">充值</button>
+            <button class="primaryButton" @click="payMoney(item.VirtualPrice)">充值</button>
           </div>
         </li>
       </ul>
@@ -56,38 +56,38 @@ export default {
     return {
       beans: [
         {
-          VirtualPrice: "10书豆",
-          RealPrice: "1",
+          VirtualPrice: 10,
+          RealPrice: 1,
         },
         {
-          VirtualPrice: "60书豆",
-          RealPrice: "6",
+          VirtualPrice: 60,
+          RealPrice: 6,
         },
         {
-          VirtualPrice: "100书豆",
-          RealPrice: "10",
+          VirtualPrice: 100,
+          RealPrice: 10,
         },
         {
-          VirtualPrice: "120书豆",
-          RealPrice: "12",
+          VirtualPrice: 120,
+          RealPrice: 12,
         },
         {
-          VirtualPrice: "300书豆",
-          RealPrice: "30",
+          VirtualPrice: 300,
+          RealPrice: 30,
         },
         {
-          VirtualPrice: "2000书豆",
-          RealPrice: "200",
+          VirtualPrice: 2000,
+          RealPrice: 200,
         },
         {
-          VirtualPrice: "500书豆",
-          RealPrice: "50",
+          VirtualPrice: 500,
+          RealPrice: 50,
           tickes: true,
           qty: 2,
         },
         {
-          VirtualPrice: "1000书豆",
-          RealPrice: "100",
+          VirtualPrice: 1000,
+          RealPrice: 100,
           tickes: true,
           qty: 5,
         },
@@ -95,18 +95,20 @@ export default {
     };
   },
   methods: {
-    auth() {
-      return this.$store.state.auth;
-    },
-    payMoney() {
+    // auth() {
+    //   return this.$store.state.auth;
+    // },
+    payMoney(beans) {
       if (this.$store.state.auth) {
         console.log(1);
         Dialog.confirm({
           // title: "标题",
-          message: "确定要付款吗",
+          message: "确定要充值吗",
         })
           .then(() => {
-            console.log(2);
+            console.log(beans);
+            Toast("充值成功");
+            this.$store.commit("putBeans", beans);
           })
           .catch(() => {
             // on cancel
@@ -116,11 +118,11 @@ export default {
       }
     },
   },
-  // computed: {
-  //   auth() {
-  //     return this.$store.state.auth;
-  //   },
-  // },
+  computed: {
+    auth() {
+      return this.$store.state.auth;
+    },
+  },
   created() {
     this.$store.commit("getUserInfo");
   },
