@@ -30,6 +30,7 @@
     <div class="nanpin">
       <h4 class="tit">男频主编推荐</h4>
       <van-grid :column-num="3" :border="false">
+        <!-- <div>{{ nanpinlist }}</div> -->
         <van-grid-item v-for="item in nanpinlist" :key="item.book_name">
           <van-image :src="item.img_url" />
           <p>{{ item.book_name }}</p>
@@ -58,7 +59,7 @@
         <span @click="change('shuwangwen')">换一换</span>
       </h4>
       <ul>
-        <li v-for="item in shuwangwenlist" :key="item.book_name">
+        <li v-for="item in shuwangwenlist.result" :key="item.book_name">
           <img :src="item.img_url" />
           <div class="fontt">
             <h3 class="book_name">{{ item.book_name }}</h3>
@@ -109,7 +110,7 @@
       </h4>
 
       <van-grid :column-num="3" :border="false">
-        <van-grid-item v-for="item in xinkuanlist" :key="item.book_name">
+        <van-grid-item v-for="item in xinkuanlist.result" :key="item.book_name">
           <van-image :src="item.img_url" />
           <p class="book_name">{{ item.book_name }}</p>
           <p class="author">{{ item.author }}</p>
@@ -141,7 +142,7 @@
       </h4>
 
       <van-grid :column-num="3" :border="false">
-        <van-grid-item v-for="item in nanwanjielist" :key="item.book_name">
+        <van-grid-item v-for="item in nanwanjielist.result" :key="item.book_name">
           <van-image :src="item.img_url" />
           <p class="book_name">{{ item.book_name }}</p>
           <p class="author">{{ item.author }}</p>
@@ -157,7 +158,7 @@
       </h4>
 
       <van-grid :column-num="3" :border="false">
-        <van-grid-item v-for="item in nvwanjielist" :key="item.book_name">
+        <van-grid-item v-for="item in nvwanjielist.result" :key="item.book_name">
           <van-image :src="item.img_url" />
           <p class="book_name">{{ item.book_name }}</p>
           <p class="author">{{ item.author }}</p>
@@ -187,7 +188,7 @@ export default {
       value: "",
       // nanpinlist: [],
       nvpinlist: [],
-      shuwangwenlist: [],
+      shuwangwenlist: [], //男生爽文
       // changxiaolist: [],
       xinkuanlist: [],
       nanwanjielist: [],
@@ -217,7 +218,6 @@ export default {
         this.shuwangwenlist = [];
         // console.log(this.shuwangwenlist);
         this.shuwangwenlist = changxiao.data;
-        // console.log(this.shuwangwenlist);
       } else if (name === "changxiao") {
         console.log(name);
         const { data: changxiao } = await this.$request.get("/bookscity/", {
@@ -225,10 +225,8 @@ export default {
             leibie: "nanpin",
           },
         });
-
-        console.log(this.changxiaolist);
         // 因为changxiaolist的数据是共享仓库里面的 mutation下的changechangxiao
-        this.$store.commit("changechangxiao", changxiao.data);
+        this.$store.commit("changechangxiao", changxiao.data.result);
       }
     },
 
@@ -245,7 +243,7 @@ export default {
           leibie: "shuwangwen",
         },
       });
-    
+
       const { data: xinkuan } = await this.$request.get("/bookscity/", {
         params: {
           leibie: "xinkuan",
@@ -262,7 +260,7 @@ export default {
         },
       });
       // this.nanpinlist = nanpin.data;
-      this.nvpinlist = nvpin.data;
+      this.nvpinlist = nvpin.data.result;
       this.shuwangwenlist = shuwangwen.data;
       // this.changxiaolist = changxiao.data;
       this.xinkuanlist = xinkuan.data;
@@ -315,7 +313,6 @@ export default {
   color: #000;
   margin-left: 4px;
 }
-
 
 .menmian {
   width: 343px;
