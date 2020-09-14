@@ -1,14 +1,9 @@
 import axios from "axios";
 
-// const baseUrl = process.NODE_ENV === 'development' ? 'http://localhost:2003' : ''
-
-// const request = axios.create({
-// baseURL: baseUrl + "/api",
-// const baseURL = process.NODE_ENV === 'development' ? 'http://localhost:2003' : ''
+const baseURL = process.NODE_ENV === 'development' ? 'http://localhost:2003' : 'http://112.74.111.183:2003'
 
 const request = axios.create({
-  // baseURL: baseURL + "/api",
-  baseURL: 'http://localhost:2003/api',
+  baseURL: baseURL + "/api",
   withCredentials: true
 })
 
@@ -27,7 +22,7 @@ function jsonp(url) {
     const JSONP = document.createElement('script');
 
     JSONP.type = 'text/javascript';
-   
+
     JSONP.src = url;
 
     document.getElementsByTagName('head')[0].appendChild(JSONP);
