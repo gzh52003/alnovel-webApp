@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import common from './common.js'
 import bookcity from './bookcity.js'
+import bookCategory from "./bookCategory"
 Vue.use(Vuex)
 
 
@@ -33,6 +34,7 @@ export default new Vuex.Store({
         state.username = username
         console.log(username);
       }
+      // const uInfo = localStorage.getItem("userInfo");
       // console.log(uInfo);
       state.auth = uInfo;
       // console.log(this.auth);
@@ -44,6 +46,7 @@ export default new Vuex.Store({
   actions: {},
   modules: {
     common,
-    bookcity
+    bookcity,
+    bookCategory
   }
 })

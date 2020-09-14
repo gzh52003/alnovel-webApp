@@ -1,11 +1,16 @@
 import request from '../newwork/request'
+
 const bookcity = {
     state: {
+        // comhistory:[],
         nanpinlist: [],
         changxiaolist: [],
-         nvwanjielist: [],
+        nvwanjielist: [],
         xihuanlist: [],
-        
+
+        douluolist: [
+
+        ]
     },
     mutations: {
         insertnanpinlist(state, data) {
@@ -13,9 +18,10 @@ const bookcity = {
             state.changxiaolist = data.changxiaolist
             state.nvwanjielist = data.nvwanjielist
             state.xihuanlist = data.xihuanlist
+            state.douluolist = data.douluolist
         },
         // 点击畅销换一换 
-        changechangxiao(state,data){
+        changechangxiao(state, data) {
             state.changxiaolist = []
             state.changxiaolist = data
         }
@@ -29,35 +35,50 @@ const bookcity = {
 
             const {
                 data: changxiaolist
-            } = await request.get("/bookscity",{
-                params:{
-                    leibie:"changxiao"
+            } = await request.get("/bookscity", {
+                params: {
+                    leibie: "changxiao"
                 }
             });
 
             const {
                 data: nvwanjielist
-            } = await request.get("/bookscity",{
-                params:{
-                    leibie:"nvwanjie"
+            } = await request.get("/bookscity", {
+                params: {
+                    leibie: "nvwanjie"
                 }
             });
 
             const {
                 data: xihuanlist
-            } = await request.get("/bookscity",{
-                params:{
-                    leibie:"xihuan"
+            } = await request.get("/bookscity", {
+                params: {
+                    leibie: "xihuan"
+                }
+            });
+
+            const {
+                data: douluolist
+            } = await request.get("/bookscity", {
+                params: {
+                    leibie: "douluo"
                 }
             });
             context.commit('insertnanpinlist', {
-                nanpinlist:nanpin.data,
-                changxiaolist:changxiaolist.data,
-                nvwanjielist:nvwanjielist.data,
-                xihuanlist:xihuanlist.data 
+
+                // nanpinlist: nanpin.data,
+                // changxiaolist: changxiaolist.data,
+                // nvwanjielist: nvwanjielist.data,
+                // xihuanlist: xihuanlist.data
+
+                nanpinlist: nanpin.data,
+                changxiaolist: changxiaolist.data,
+                nvwanjielist: nvwanjielist.data,
+                xihuanlist: xihuanlist.data,
+                douluolist: douluolist.data
             })
         }
     }
-    }
+}
 
 export default bookcity

@@ -1,28 +1,49 @@
 <!--  -->
 <template>
   <div class="search">
-    <div class="search_header">
-      <van-icon class="len" size="18px" name="search" />
-      <input @input="search" class="search" type="text" placeholder="请输入书名或者作者名" />
-      <button>取消</button>
-    </div>
+    <form class="search_header" action="/">
+      <van-search
+        @input="search"
+        v-model="value"
+        show-action
+        placeholder="请输入搜索关键词"
+        @search="onSearch"
+        @cancel="onCancel"
+      />
+    </form>
+
     <div class="search_container">
       <h3>热门搜索</h3>
       <ul class="hot-search">
         <li class="line"></li>
         <li v-for="item in hotSearch" :key="item.bookid">{{ item.title }}</li>
       </ul>
-      <div class="search-histroy">
+      <div class="search-histroy" v-show="showSearch_history">
         <div>搜索历史</div>
         <button>清空</button>
       </div>
       <ul class="search-histroy-box">
-        <li>异界之魔武流氓</li>
-        <li>龙王殿</li>
-        <li>超凡：从拥有系统开始</li>
-        <li>我是菜鸡</li>
+        <li v-for="item in search_history" :key="item">{{item}}</li>
       </ul>
     </div>
+
+    <ul class="search_one" v-show="showSearch_one">
+      <li v-for="item in search_one" :key="item.title">{{ item.title}}</li>
+    </ul>
+    <ul class="search_click">
+      <li v-for="item in search_enter" :key="item._id">
+        <dl>
+          <dt>
+            <img :src="item.cover" alt />
+          </dt>
+          <dd>
+            <h3>{{ item.title}}</h3>
+            <h5>{{ item.author}}</h5>
+            <p>{{ item.desc}}</p>
+          </dd>
+        </dl>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -32,6 +53,15 @@ export default {
   data() {
     return {
       hotSearch: [],
+      // 简单的搜索
+      search_one: [],
+      search_enter: [],
+      search_history: [],
+      num: 0,
+      flag: true,
+      value: "",
+      showSearch_one: false,
+      showSearch_history: false,
     };
   },
   created() {
@@ -41,12 +71,61 @@ export default {
     //获取热门搜索
     async getHotSearch() {
       const { data } = await this.$request.get("/shelf/hot");
-      // console.log("我是热门搜索", data.data[0].data);
+      console.log("我是热门搜索", data.data[0].data);
       this.hotSearch = data.data[0].data;
     },
-    //搜索事件
-    search() {
-      console.log(1);
+
+    //回车后 发起请求
+    async onSearch(val) {
+      this.search_one = [];
+      const { data } = await this.$request.get("/search", {
+        params: {
+          q: val,
+        },
+      });
+      console.log("data", data.data, val);
+      this.search_enter = data.data;
+
+      this.search_history.unshift(val);
+      if (this.search_history.length > 10) {
+        for (let i = 0; i < 10; i++) {
+          this.search_history.unshift(this.search_history[i]);
+        }
+      }
+      // console.log("我是搜索记录", this.search_history);
+      if (this.search_history.length > 0) {
+        this.showSearch_history = true;
+      }
+    },
+    onCancel() {
+      this.search_one = [];
+      this.search_enter = [];
+    },
+
+    //搜索事件 表单输入值的时候 发起请求
+    async search() {
+      //节流阀
+      if (this.flag) {
+        //发起请求
+        const { data } = await this.$request.get("/search", {
+          params: {
+            q: this.value,
+          },
+        });
+        this.search_one = data.data;
+
+        this.flag = false;
+        setTimeout(() => {
+          this.flag = true;
+        }, 500);
+      }
+      this.showSearch_one = true;
+      //表单的值 为空的是设置
+      if (!this.value) {
+        this.search_one = [];
+        this.search_enter = [];
+        this.showSearch_one = false;
+      }
     },
   },
   components: {},
@@ -54,33 +133,16 @@ export default {
 </script>
 <style  lang="scss" scoped>
 .search {
+  position: relative;
   padding: 10px 0;
+  .van-search {
+    padding: 0 0 0 2%;
+  }
   .search_header {
-    width: 98%;
-    margin-left: 2%;
-
-    position: relative;
-    display: flex;
-    margin-bottom: 10px;
-    height: 31px;
-    border-radius: 5px;
-
-    .len {
-      top: 6px;
-      left: 6px;
-      position: absolute;
+    .van-cell {
+      width: 100%;
     }
-    .search {
-      background: #eee;
-      padding-left: 26px;
-      border: none;
-      width: 80%;
-      height: 100%;
-      font-size: 14px;
-    }
-    button {
-      width: 20%;
-      height: 100%;
+    .van-search__action {
       background: #fff;
       font-weight: bold;
       color: #23b383;
@@ -142,6 +204,86 @@ export default {
     }
     .search-histroy-box {
       height: 86px;
+      li {
+        height: 38px;
+        border-radius: 4px;
+        padding: 6px 12px;
+      }
+    }
+  }
+  //这是第一次搜索的
+  .search_one {
+    position: absolute;
+    top: 55px;
+    left: 0;
+    padding-left: 2%;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+
+    li {
+      height: 45px;
+      line-height: 45px;
+      border-bottom: 1px solid #ddd;
+      color: #333;
+      font-size: 17px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+  //这是回车搜索
+
+  .search_click {
+    position: absolute;
+    width: 100%;
+    top: 55px;
+    padding-left: 2%;
+    background: #fff;
+
+    li {
+      dl {
+        display: flex;
+
+        dt {
+          margin-right: 6px;
+          width: 78px;
+          height: 95px;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        dd {
+          width: 100%;
+          h3 {
+            font-size: 15px;
+            line-height: 16px;
+            padding: 10px 0 8px 0;
+            margin: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: #333;
+          }
+          h5 {
+            font-size: 12px;
+            line-height: 10px;
+            color: #999;
+          }
+          p {
+            font-size: 13px;
+            line-height: 20px;
+            margin: 4.5px 0 12px 0;
+            display: -webkit-box;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            word-break: break-all;
+          }
+        }
+      }
     }
   }
 }

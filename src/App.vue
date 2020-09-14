@@ -22,6 +22,7 @@ import {
   Card,
   List,
   Cell,
+  Search,
 } from "vant";
 
 Vue.use(Image);
@@ -37,6 +38,7 @@ Vue.use(Row);
 Vue.use(List);
 Vue.use(Card);
 Vue.use(Cell);
+Vue.use(Search);
 
 export default {
   components: {
