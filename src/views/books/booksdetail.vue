@@ -2,14 +2,20 @@
   <div class="body">
     <!-- 主编力荐 -->
     <div class="lijian">
-      <h4>
-        <img src="../../../public/img/4.png" alt />
-        <p>主编力荐</p>
-        <div class="change">
+      <van-row>
+        <h4>
+        <van-col span="20">
+          <img src="../../../public/img/4.png" alt />
+          <p>主编力荐</p>
+        </van-col>
+        <van-col span="4">
+          <div class="change">
           <img src="../../../public/img/5.png" alt />
           <span>换一换</span>
         </div>
+        </van-col>
       </h4>
+      </van-row>
 
       <div class="nanpin">
         <van-grid :column-num="3" :border="false">
@@ -50,9 +56,13 @@
     <!-- 无名列表 -->
     <div class="wuming">
       <ul>
-        <li v-for="item in changxiaolist" :key="item.book_name">
-          <img :src="item.img_url" />
-          <div class="fontt">
+        <van-row>
+          <li v-for="item in changxiaolist" :key="item.book_name">
+          <van-col span="7">
+            <img :src="item.img_url" />
+          </van-col>
+          <van-col span = "17">
+            <div class="fontt">
             <h3 class="book_name">{{ item.book_name }}</h3>
             <p class="book_detail">{{ item.book_detail }}</p>
             <p class="auhor">
@@ -62,15 +72,17 @@
                 item.tag
                 }}
               </van-tag>
-              <van-tag
+              <!-- <van-tag
                 size="mini"
                 plain
                 text-color="#23b383"
                 style="margin-right:5px;"
-              >{{ item.tag0 }}</van-tag>
+              >{{ item.tag0 }}</van-tag> -->
             </p>
           </div>
+          </van-col>
         </li>
+        </van-row>
       </ul>
     </div>
 
@@ -89,17 +101,23 @@
       </h4>
       <div class="wuming">
         <ul>
-          <li v-for="item in xihuanlist" :key="item.book_name">
-            <img :src="item.img_url" />
-            <div class="fontt">
-              <h3 class="book_name">{{ item.book_name }}</h3>
-              <p class="book_detail">{{ item.book_detail }}</p>
-              <p class="auhor">
-                {{ item.author }}
-                <van-tag size="mini" type="primary" plain text-color="#a1a1b3">{{ item.tag }}</van-tag>
+          <van-row>
+            <li v-for="item in xihuanlist" :key="item.book_name">
+            <van-col span="7">
+              <img :src="item.img_url" />
+            </van-col>
+            <van-col span="17">
+               <div class="fontt">
+                <h3 class="book_name">{{ item.book_name }}</h3>
+                <p class="book_detail">{{ item.book_detail }}</p>
+                <p class="auhor">
+                  {{ item.author }}
+                  <van-tag size="mini" type="primary" plain text-color="#a1a1b3">{{ item.tag }}</van-tag>
               </p>
             </div>
+            </van-col>
           </li>
+          </van-row>
         </ul>
       </div>
     </div>
@@ -107,11 +125,13 @@
 </template>
 <script>
 import Vue from "vue";
-import { Grid, GridItem, Image, Tag } from "vant";
+import { Col, Grid, GridItem, Image, Row, Tag } from "vant";
 Vue.use(Grid);
 Vue.use(GridItem);
 Vue.use(Image);
 Vue.use(Tag);
+Vue.use(Col);
+Vue.use(Row)
 
 export default {
   data() {
@@ -185,12 +205,12 @@ export default {
 }
 .lijian {
   padding-top: 20px;
-  width: 343px;
+  // width: 343px;
   height: 436px;
   margin-bottom: 8px;
   border-bottom: 1px solid rgb(248, 246, 246);
   h4 {
-    width: 343px;
+    // width: 343px;
     height: 22px;
     margin-bottom: 15px;
     // background-color: red;
@@ -228,7 +248,7 @@ export default {
     }
   }
   .nanpin {
-    width: 343px;
+    // width: 343px;
     height: 399px;
     // background-color: pink;
 
@@ -268,27 +288,27 @@ export default {
 
 // 无名
 .wuming {
-  width: 343px;
+  // width: 343px;
   height: 388px;
   //   background-color: yellow;
   ul {
-    width: 343px;
+    // width: 343px;
     height: 478px;
     // background-color: pink;
     li {
-      width: 343px;
+      width: 100%;
       height: 129px;
       padding: 16px 0;
       //   background-color: orange;
       border-bottom: 1px solid rgb(248, 246, 246);
       img {
         float: left;
-        width: 68px;
-        height: 92px;
+        width:90%;
+        height: 100px;
       }
       .fontt {
         float: right;
-        width: 251px;
+        width: 100%;
         height: 97px;
         // background-color: pink;
         margin: 7px 0 0 16px;

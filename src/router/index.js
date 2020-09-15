@@ -50,6 +50,22 @@ const routes = [{
     component:()=>import("../views/books/booksearch.vue")
   },
   {
+    path: '/booksinfo/:id',
+    name: 'Booksinfo',
+    meta: {
+      title: "书籍详情"
+    },
+    component: () => import("../views/books/booksinfo.vue")
+  },
+  {
+    path: '/catalog',
+    name: 'Catalog',
+    meta: {
+      title: "书籍目录"
+    },
+    component: () => import("../views/books/Catalog.vue")
+  },
+  {
     path: '/category',
     name: 'Category',
     meta: {

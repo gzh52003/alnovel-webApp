@@ -1,35 +1,50 @@
 <!--  -->
 <template>
   <div class="body">
-    <van-cell-group class="input-box">
-      <van-field v-model="value" placeholder="请输入书名或作者名" @focus="goto('/booksearch')">
-        <!-- 插槽一定要写在这个字段组件里面 因为是属于这个组件里面的 -->
-        <template #left-icon>
+
+  <van-row>
+    <van-col span="24">
+      <van-cell-group class="input-box">
+      <van-field v-model="value" placeholder="请输入书名或作者名" @focus="flyto('/booksearch')">
+       <!-- 插槽一定要写在这个字段组件里面 因为是属于这个组件里面的 -->
+        <!-- <template #left-icon>
           <van-icon name="search" size="18" />
-        </template>
+        </template> -->
       </van-field>
     </van-cell-group>
-
-    <div class="menmian">
+    </van-col>
+  </van-row>
+  
+  <van-row>
+    <van-col span="24">
+      <div class="menmian">
       <!-- 路径不要有点斜杠./img -->
       <img src="/img/1.png" alt />
     </div>
+    </van-col>
+  </van-row>
+    
 
-    <div class="mail">
-      <div class="item" @click="goto('/booksdetail/femail')">
+    <van-row class="mail">
+      <van-col span="12">
+        <div class="item" @click="flyto('/booksdetail/femail')">
         <i></i>
         <span>女生</span>
-      </div>
-      <div class="item item2" @click="goto('/booksdetail/mail')">
+        </div>
+      </van-col>
+      <van-col span="12">
+        <div class="item item2" @click="flyto('/booksdetail/mail')">
         <i></i>
         <span>男主</span>
       </div>
-    </div>
+      </van-col>
+    </van-row>
 
     <!-- 男频主编推荐 -->
     <div class="nanpin">
       <h4 class="tit">男频主编推荐</h4>
-      <van-grid :column-num="3" :border="false">
+     
+        <van-grid :column-num="3" :border="false">
         <!-- <div>{{ nanpinlist }}</div> -->
         <van-grid-item v-for="item in nanpinlist" :key="item.book_name">
           <van-image :src="item.img_url" />
@@ -38,12 +53,14 @@
           <p class="author">{{ item.author }}</p>
         </van-grid-item>
       </van-grid>
+     
     </div>
 
     <div class="nanpin">
       <h4 class="tit">女频主编推荐</h4>
       <van-grid :column-num="3" :border="false">
-        <van-grid-item v-for="item in nvpinlist" :key="item.book_name">
+        <van-grid-item v-for="item in nvpinlist" :key="item.book_name" 
+        @click="goto(item._id,'nvpin')">
           <van-image :src="item.img_url" />
           <p>{{ item.book_name }}</p>
           <!-- class="book_name" class="author"-->
@@ -58,23 +75,32 @@
         男生爽文
         <span @click="change('shuwangwen')">换一换</span>
       </h4>
-      <ul>
-        <li v-for="item in shuwangwenlist.result" :key="item.book_name">
-          <img :src="item.img_url" />
-          <div class="fontt">
-            <h3 class="book_name">{{ item.book_name }}</h3>
-            <p class="book_detail">{{ item.book_detail }}</p>
-            <p class="auhor">
-              {{ item.author }}
-              <van-tag size="medium" color="#f5f5f5" type="primary">
-                {{
-                item.tag
-                }}
-              </van-tag>
-            </p>
-          </div>
+      <van-row>
+         <ul>
+           <van-row>
+            <li v-for="item in shuwangwenlist.result" :key="item.book_name"
+            @click="goto(item._id,'shuwangwen')">
+              <van-col span="8">
+                <img :src="item.img_url" />
+              </van-col>
+              <van-col span="16">
+                 <div class="fontt">
+                <h3 class="book_name">{{ item.book_name }}</h3>
+                <p class="book_detail">{{ item.book_detail }}</p>
+                <p class="auhor">
+                  {{ item.author }}
+                  <van-tag size="medium" color="#f5f5f5" type="primary">
+                    {{
+                    item.tag
+                    }}
+                  </van-tag>
+                </p>
+              </div>
+              </van-col>
         </li>
-      </ul>
+           </van-row>
+         </ul>
+      </van-row>
     </div>
 
     <!-- 女生畅销 -->
@@ -83,10 +109,15 @@
         女生畅销
         <span @click="change('changxiao')">换一换</span>
       </h4>
-      <ul>
-        <li v-for="item in changxiaolist" :key="item.book_name">
-          <img :src="item.img_url" />
-          <div class="fontt">
+      <van-row>
+         <ul>
+        <li v-for="item in changxiaolist" :key="item.book_name"
+        @click="goto(item._id,'changxiao')">
+          <van-col span="8">
+            <img :src="item.img_url" />
+          </van-col>
+          <van-col span="16">
+            <div class="fontt">
             <h3 class="book_name">{{ item.book_name }}</h3>
             <p class="book_detail">{{ item.book_detail }}</p>
             <p class="auhor">
@@ -98,8 +129,10 @@
               </van-tag>
             </p>
           </div>
+          </van-col>
         </li>
       </ul>
+      </van-row>
     </div>
 
     <!-- 男频最新爆款 -->
@@ -172,7 +205,7 @@
 
 <script>
 import Vue from "vue";
-import { CellGroup, Field, Grid, GridItem, Icon, Image, Tag } from "vant";
+import { CellGroup, Col, Field, Grid, GridItem, Icon, Image, Row, Tag } from "vant";
 
 Vue.use(Field);
 Vue.use(Icon);
@@ -181,6 +214,8 @@ Vue.use(GridItem);
 Vue.use(Image);
 Vue.use(Tag);
 Vue.use(CellGroup);
+Vue.use(Col);
+Vue.use(Row);
 export default {
   name: "Books",
   data() {
@@ -204,8 +239,21 @@ export default {
     },
   },
   methods: {
-    goto(path) {
+    flyto(path) { 
+      // console.log(id,leibie);
       this.$router.push(path);
+    },
+    goto(id,leibie) { 
+      // console.log(id,leibie);
+      this.$router.push({
+        name:'Booksinfo',
+        // $route里面的params可以获取到id值 $route里面的属性可以获取传过去的query
+        // 想传什么数据就放在query里面即可
+        params:{id},
+        query:{
+              leibie:leibie
+          }
+      });
     },
     async change(name) {
       if (name === "shuwangwen") {
@@ -261,6 +309,7 @@ export default {
       });
       // this.nanpinlist = nanpin.data;
       this.nvpinlist = nvpin.data.result;
+      console.log( "nvpin数据",this.nanpinlist)
       this.shuwangwenlist = shuwangwen.data;
       // this.changxiaolist = changxiao.data;
       this.xinkuanlist = xinkuan.data;
@@ -270,7 +319,7 @@ export default {
   },
   mounted() {
     this.getData();
-    console.log(this.$store);
+    console.log("已经挂载");
   },
 
   created() {
@@ -288,7 +337,7 @@ export default {
 }
 .van-cell {
   background-color: #f5f5f5;
-  width: 343px;
+  // width: 343px;
   height: 31px;
   line-height: 0px;
   margin: 8px 0;
@@ -315,20 +364,20 @@ export default {
 }
 
 .menmian {
-  width: 343px;
+  // width: 343px;
   height: 159px;
   // background-color: gray;
   padding-top: 42px;
   margin-bottom: 12px;
 
   img {
-    width: 343px;
+    width: 100%;
     height: 117px;
     box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.05);
   }
 }
 .mail {
-  width: 343px;
+  // width: 343px;
   height: 64px;
   // background-color: red;
   text-align: center;
@@ -339,7 +388,7 @@ export default {
   }
   .item {
     float: left;
-    width: 171px;
+    width: 100%;
     height: 64px;
     // background-color: yellow;
 
@@ -367,7 +416,7 @@ export default {
 }
 
 .nanpin {
-  width: 343px;
+  // width: 343px;
   height: 240px;
   ::v-deep .van-image__img {
     width: 98px;
@@ -409,25 +458,25 @@ export default {
 }
 
 .shuangwen {
-  width: 343px;
+  // width: 343px;
   height: 534px;
   // background-color: yellow;
   ul {
-    width: 343px;
+    // width: 343px;
     height: 478px;
     // background-color: pink;
     li {
-      width: 343px;
+      // width: 343px;
       height: 159px;
       // background-color: orange;
       img {
         float: left;
-        width: 107px;
+        width: 100%;
         height: 143px;
       }
       .fontt {
         float: right;
-        width: 223px;
+        // width: 223px;
         height: 143px;
         // background-color: pink;
         margin: 9px 0 0 12px;
@@ -491,7 +540,7 @@ export default {
 }
 
 .nvwanjie {
-  width: 343px;
+  // width: 343px;
   height: 425px;
   // background-color: red;
 }

@@ -43,7 +43,7 @@
         </h6>
         <ul>
           <!-- v-for="item in historylist" :key="item" -->
-         <li v-for="item in historylist" :key="item">{{item}}</li>
+          <li v-for="item in historylist" :key="item">{{ item }}</li>
         </ul>
       </div>
     </div>
@@ -87,9 +87,13 @@
         class="listdata"
         v-show="!isshow"
       >
-        <van-cell class="lili" v-for="item in listdata" :key="item.id">
-          <img :src="item.img_url" />
-          <div class="fontt">
+      <van-row>
+          <van-cell class="lili" v-for="item in listdata" :key="item.id">
+          <van-col span="7">
+            <img :src="item.img_url" />
+          </van-col>
+          <van-col span="17">
+            <div class="fontt">
             <h3 class="book_name" v-html="format(item.book_name)"></h3>
             <p class="book_detail">{{ item.book_detail }}</p>
             <p class="auhor">
@@ -99,7 +103,9 @@
               </van-tag>
             </p>
           </div>
+          </van-col>
         </van-cell>
+      </van-row>
       </van-list>
     </van-pull-refresh>
   </div>
@@ -134,7 +140,7 @@ export default {
       // 实现双向绑定
       value: "",
       // 因为组件的销毁导致组件的会重新创建 所以可以把历史搜索数据放到仓库 从仓库获取
-      historylist:["斗罗大陆"]
+      historylist: ["斗罗大陆"],
     };
   },
   methods: {
@@ -145,17 +151,18 @@ export default {
     behind() {
       this.isshow = false;
     },
-    clear(){
+    clear() {
       console.log(111111);
-      this.historylist=""
+      this.historylist = "";
     },
     format(title) {
+      console.log("title", title);
       return title.replace(
         "斗罗大陆",
         '<span style="color: #58bc58">斗罗大陆</span>'
       );
     },
-  // 高亮用format实现
+    // 高亮用format实现
     // gaoliang() {
     //   console.log("高亮", this.listdata);
     //   // var newlist = [];
@@ -184,7 +191,8 @@ export default {
         },
       });
       console.log("异步数据", data.data);
-      this.listdata = data.data;
+      this.listdata = data.data.result;
+      console.log("listdata",this.listdata)
       // 加载状态结束
       this.loading = false;
 
@@ -247,9 +255,9 @@ export default {
     render() {
       // 在它渲染的时候获取input上的值放入到搜索历史里面
 
-      console.log("搜索框里的值",this.value);
-      this.historylist.push(this.value)
-    console.log("搜索历史里的数据",this.historylist);
+      console.log("搜索框里的值", this.value);
+      this.historylist.push(this.value);
+      console.log("搜索历史里的数据", this.historylist);
       $(".baidulist").css({
         display: "none",
       });
@@ -292,7 +300,7 @@ export default {
   color: #58bc58;
 }
 .searchheader {
-  width: 343px;
+  // width: 343px;
   height: 47px;
   // background-color: green;
 }
@@ -304,7 +312,7 @@ export default {
 }
 .van-cell {
   // background-color: #f5f5f5;
-  width: 298px;
+  // width: 298px;
   height: 31px;
   line-height: 0px;
   margin: 8px 0;
@@ -400,7 +408,7 @@ export default {
   //   background-color: yellow;
 
   .lili {
-    width: 343px;
+    width: 100%;
     height: 159px;
     // background-color: orange;
     img {
@@ -449,21 +457,21 @@ export default {
     }
   }
   ul {
-    width: 343px;
+    // width: 343px;
     height: 100%;
     // background-color: pink;
     li {
-      width: 343px;
+      // width: 343px;
       height: 159px;
       // background-color: orange;
       img {
         float: left;
-        width: 107px;
+        width: 100%;
         height: 143px;
       }
       .fontt {
         float: right;
-        width: 223px;
+        // width: 223px;
         height: 143px;
         // background-color: pink;
         margin: 9px 0 0 12px;
@@ -529,7 +537,7 @@ export default {
   }
 }
 .baidulist {
-  width: 343px;
+  // width: 343px;
   min-height: 200px;
   // background-color: pink;
   li {
