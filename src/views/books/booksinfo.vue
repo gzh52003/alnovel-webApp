@@ -33,11 +33,10 @@
       </p>
     </div>
     <div class="books-tag">
-      
       <!-- <span v-for="item in String(bookInfo.tags).split(',')" :key="item">{{ item }}</span> -->
-       <span>{{bookInfo.tag}}</span>
-       <!-- 表示如果存在bookInfo.tag0 那么就渲染这个span标签 -->
-       <span v-if="bookInfo.tag0">{{bookInfo.tag0}}</span>
+      <span>{{bookInfo.tag}}</span>
+      <!-- 表示如果存在bookInfo.tag0 那么就渲染这个span标签 -->
+      <span v-if="bookInfo.tag0">{{bookInfo.tag0}}</span>
     </div>
 
     <!-- 最新 -->
@@ -45,14 +44,14 @@
       <h4>最新</h4>
       <!-- <span>{{ bookInfo.last_chapter_name }}</span> -->
       <span class="books-zhangshu">第五十六章{{bookInfo.book_name}}</span>
-      
+
       <van-icon class="arrow-c" name="arrow" />
       <div class="line"></div>
     </div>
     <!-- 目录 -->
     <div class="books-catalog books-news" @click="gotoCatelog()">
       <h4>目录</h4>
-      <span ></span>
+      <span></span>
       <van-icon class="arrow-c" name="arrow" />
       <div class="line"></div>
     </div>
@@ -186,17 +185,19 @@ export default {
     async getBooksInfo() {
       // console.log("url传参内容",this.$route.params);
       const { id: bookid } = this.$route.params;
-       const {leibie} = this.$route.query;
+      const { leibie } = this.$route.query;
       // console.log("跳转过来的id", bookid);
       const { data: bookInfo } = await this.$request.get(
-        `/bookscity/${bookid}`,{
-          params:{
-            leibie:leibie
-          }
-        });
+        `/bookscity/${bookid}`,
+        {
+          params: {
+            leibie: leibie,
+          },
+        }
+      );
       console.log("我是data获取图书信息", bookInfo);
       this.bookInfo = bookInfo.data[0];
-      console.log("进入bookinfo的数据",this.bookInfo);
+      console.log("进入bookinfo的数据", this.bookInfo);
     },
     // 获取图书的目录
     // async getBooksCatelog() {
@@ -217,11 +218,11 @@ export default {
     //跳转到目录
     async gotoCatelog() {
       // console.log(this.bookInfo);
-      localStorage.setItem('bookInfo',JSON.stringify(this.bookInfo))
-      this.$router.push('/catalog')
+      localStorage.setItem("bookInfo", JSON.stringify(this.bookInfo));
+      this.$router.push("/catalog");
       // const { id: bookId } = this.$route.params;
       // const {leibie} = this.$route.query;
-     
+
       // const { id } = this.$route.params;
       // // console.log("跳转目录");
       // this.$router.push({
@@ -229,7 +230,7 @@ export default {
       //   // params:{id}等价于params:{id:id}
       //   params:{id},
       //   query: {
-          
+
       //   },
       // });
     },
@@ -388,7 +389,7 @@ export default {
     display: flex;
     height: 54px;
     line-height: 54px;
-    .books-zhangshu{
+    .books-zhangshu {
       width: 232px;
       white-space: nowrap;
       overflow: hidden;

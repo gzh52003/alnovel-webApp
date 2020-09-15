@@ -12,6 +12,7 @@ const bookcity = {
     mutations: {
         insertnanpinlist(state, data) {
             state.nanpinlist = data.nanpinlist
+            console.log('nanpin响应',this.nanpinlist);
             state.changxiaolist = data.changxiaolist
             state.nvwanjielist = data.nvwanjielist
             state.xihuanlist = data.xihuanlist
@@ -30,7 +31,7 @@ const bookcity = {
                 data: nanpin
             } = await request.get("/bookscity");
 
-
+            console.log('仓库男频',nanpin);
             const {
                 data: changxiaolist
             } = await request.get("/bookscity", {
