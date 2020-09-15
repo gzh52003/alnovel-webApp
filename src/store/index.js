@@ -12,6 +12,7 @@ export default new Vuex.Store({
     isShowTabbar: true,
     auth: null,
     username: '',
+    usernameBeans: 0,
   },
   mutations: {
     showTabbar(state, payload) {
@@ -38,6 +39,9 @@ export default new Vuex.Store({
       state.auth = uInfo;
       // console.log(this.auth);
     },
+    putBeans(state, beans) {
+      state.usernameBeans += beans
+    }
   },
   actions: {},
   modules: {

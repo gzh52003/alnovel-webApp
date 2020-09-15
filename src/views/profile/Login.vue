@@ -124,10 +124,16 @@ export default {
       const username = this.userPhone.trim();
       const password = this.userPsd;
       if (this.checked && this.userPhone === "") {
-        Toast("请输入手机号和密码");
+        Toast("请输入账号和密码");
         return false;
       }
       if (this.checked) {
+        const { data:find } = await this.$request.get(`/muser/${username}`);
+        console.log(find);
+        if (find.msg === 0) {
+          Toast("用户不存在，请注册后登陆");
+          return false;
+        }
         const { data } = await this.$request.post("/login", {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
@@ -145,7 +151,7 @@ export default {
 
           this.$router.push("/profile");
         }
-      } 
+      }
     },
     // 显示发送短信验证码按钮
     phoneLength() {
@@ -169,22 +175,6 @@ export default {
       }, 1000);
     },
   },
-  // computed: {
-  //   timeSecond() {
-  //     if (this.second < 10) {
-  //       return `0${this.second}`;
-  //     }
-  //     return this.second;
-  //   },
-  // },
-  // filters: {
-  //   format: function (data) {
-  //     console.log(data)
-  //     if (data) {
-  //       return this.codeText;
-  //     }
-  //   },
-  // },
   created() {
     const auth = localStorage.getItem("userInfo");
     if (auth) {
